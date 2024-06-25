@@ -1,23 +1,30 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
 
-export default function DrawerNavigator() {
+import BottomTabNavigator from "./BottomTabNavigator";
+
+
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+
+
+import CategoriesScreen from './CategoriesScreen'
+import BookingScreen from "./BookingScreen";
+import ServiceProviderScreen from "./ServiceProviderScreen";
+import ProfileScreen from "./ProfileScreen";
+
+const Drawer = createDrawerNavigator();
+function DrawerNavigator() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome to Profile Screen</Text>
-    </View>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Menu" component={BottomTabNavigator} />
+      <Drawer.Screen name="Categories" component={CategoriesScreen} />
+      <Drawer.Screen name="Booking" component={BookingScreen} />
+      <Drawer.Screen name="ServiceProvider" component={ServiceProviderScreen} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="Settings" component={ProfileScreen} />
+    </Drawer.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
+
+export default DrawerNavigator;

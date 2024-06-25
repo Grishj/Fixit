@@ -8,16 +8,14 @@ import {
   StyleSheet,
   TextInput,
   SafeAreaView,
-
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import CategoriesScreen from "./CategoriesScreen";
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
   return (
-    
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-     
         <ScrollView style={styles.scrollView}>
           <View style={styles.header}>
             <Text style={styles.title}>HomeSolution</Text>
@@ -39,7 +37,8 @@ const HomePage = () => {
             style={styles.categoriesContainer}
           >
             {categories.map((category, index) => (
-              <View key={index} style={styles.categoryItem}>
+              <TouchableOpacity key={index} style={styles.categoryItem} onPress={() => navigation.navigate('ServiceDetails', { CategoriesScreen })}
+              >
                 <View
                   style={[
                     styles.categoryIcon,
@@ -49,7 +48,7 @@ const HomePage = () => {
                   <FontAwesome5 name={category.icon} size={24} color="white" />
                 </View>
                 <Text style={styles.categoryText}>{category.name}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
 
@@ -72,20 +71,22 @@ const HomePage = () => {
             <Text style={styles.sectionTitle}>Our Services</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {services.map((service, index) => (
-                <View key={index} style={styles.serviceItem}>
+                <TouchableOpacity
+                  key={index}
+                  style={styles.serviceItem}
+                  onPress={() =>
+                    navigation.navigate("ServiceDetails", { service })
+                  }
+                >
                   <Image source={service.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{service.name}</Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
         </ScrollView>
-
-       
       </View>
-   
     </SafeAreaView>
-    
   );
 };
 

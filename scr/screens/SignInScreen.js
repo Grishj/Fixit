@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, ImageBackground } from 'react-native';
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -7,14 +7,14 @@ const SignInScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async () => {
-    // Validate email field
+   
     if (!email.includes('@')) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
 
     try {
-      // Perform sign-in logic
+      
       const response = await fetch('/api/signin', {
         method: 'POST',
         headers: {
@@ -24,10 +24,9 @@ const SignInScreen = ({ navigation }) => {
       });
 
       if (response.ok) {
-        // Sign-in successful, navigate to Home screen
+        
         navigation.navigate('SignUpScreen');
       } else {
-        // Sign-in failed, show error message and redirect to Sign Up screen
         const error = await response.json();
         Alert.alert('Sign-in Error', error.message);
         navigation.navigate('SignUp');
@@ -69,9 +68,12 @@ const SignInScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.link}>Don't have an account? Sign Up</Text>
+      <View style={{ flexDirection: 'row', marginTop: 0 }}>
+      <Text style={{ color: '#000', fontSize: 16 }}>Don't have an account? </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+        <Text style={styles.link}> Sign Up</Text>
       </TouchableOpacity>
+    </View>
     </View>
   );
 };
@@ -79,7 +81,7 @@ const SignInScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 16,
     fontSize: 16,
+    backgroundColor: '#fff',
   },
   passwordContainer: {
     width: '100%',
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
   link: {
     color: '#007aff',
     fontSize: 16,
-    marginTop: 8,
+    marginTop: 0,
   },
 });
 

@@ -1,17 +1,16 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import HomePage from './HomeScreen'
+import OnboardingScreen from './OnboardingScreen';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
-import OnboardingScreen from './OnboardingScreen';
+
+import DrawerNavigator from './DrawerNavigator';
 
 
 const Stack = createStackNavigator();
 
 
-const StackNavigator =()=> {
+function StackNavigator () {
   return (
 
       <Stack.Navigator initialRouteName="OnboardingScreen">
@@ -19,8 +18,8 @@ const StackNavigator =()=> {
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{headerShown: false}} />
        
         <Stack.Screen name="SignInScreen" component={SignInScreen}  options={{headerShown: false}}/>
-        <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
-        
+        <Stack.Screen name="Home" component={DrawerNavigator} options={{headerShown: false}} />
+       
        
        
       </Stack.Navigator>

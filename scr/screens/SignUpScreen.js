@@ -97,10 +97,12 @@ const SignUpScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
-        <Text style={styles.link}>Already have an account? Sign in</Text>
+      <View style={{ flexDirection: 'row', marginTop: 0 }}>
+      <Text style={{ color: '#000', fontSize: 16 }}>Already have an account? </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.link}> Sign in</Text>
       </TouchableOpacity>
-     
+     </View>
     </View>
   );
 };
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
   link: {
     color: '#007aff',
     fontSize: 16,
-    marginTop: 8,
+    marginTop: 0,
   },
 });
 
