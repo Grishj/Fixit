@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Menu" component={BottomTabNavigator} />
+      <Drawer.Screen name="Menu" component={BottomTabNavigator} options={{headerShown: false}} />
       <Drawer.Screen name="Categories" component={CategoriesScreen} />
       <Drawer.Screen name="Booking" component={BookingScreen} />
       <Drawer.Screen name="ServiceProvider" component={ServiceProviderScreen} />

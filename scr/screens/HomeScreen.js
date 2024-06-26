@@ -3,30 +3,44 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
   TextInput,
   SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import CategoriesScreen from "./CategoriesScreen";
 
 const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.header}>
-            <Text style={styles.title}>HomeSolution</Text>
-          </View>
-
-          <View style={styles.searchContainer}>
-            <TextInput style={styles.searchInput} placeholder="Search" />
-            <TouchableOpacity style={styles.searchButton}>
-              <FontAwesome5 name="search" size={20} color="white" />
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+            <Ionicons name="menu" size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.title}>HomeSolution</Text>
+          <View style={styles.headerIcons}>
+            <TouchableOpacity onPress={() => console.log('Notifications')}>
+              <Ionicons name="notifications" size={24} color="black" />
+            </TouchableOpacity>
+            <View style={styles.iconSpacer} />
+            <TouchableOpacity onPress={() => console.log('Favourites')}>
+              <Ionicons name="heart" size={24} color="black" />
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInput} placeholder="Search" />
+          <TouchableOpacity style={styles.searchButton}>
+            <FontAwesome5 name="search" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView style={styles.scrollView}>
           <View style={styles.servicesContainer}>
             <Text>Popular Services</Text>
           </View>
@@ -37,7 +51,10 @@ const HomePage = ({ navigation }) => {
             style={styles.categoriesContainer}
           >
             {categories.map((category, index) => (
-              <TouchableOpacity key={index} style={styles.categoryItem} onPress={() => navigation.navigate('ServiceDetails', { CategoriesScreen })}
+              <TouchableOpacity
+                key={index}
+                style={styles.categoryItem}
+                onPress={() => navigation.navigate('ServiceDetails', { CategoriesScreen })}
               >
                 <View
                   style={[
@@ -85,6 +102,7 @@ const HomePage = ({ navigation }) => {
             </ScrollView>
           </View>
         </ScrollView>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -105,22 +123,17 @@ const services = [
   { name: "Home Improvement", image: require("../images/HomeImprovement.jpg") },
 ];
 
-const navItems = [
-  { label: "Home", icon: "home" },
-  { label: "Categories", icon: "th-list" },
-  { label: "Booking", icon: "calendar-check" },
-  { label: "Service Provider", icon: "user-cog" },
-  { label: "Profile", icon: "user" },
-];
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#F7F7F7",
-    paddingVertical: 20,
+  paddingVertical:17,
+  paddingBottom: 0,
+    marginBottom:'auto',
   },
   container: {
     flex: 1,
+    
   },
   scrollView: {
     flex: 1,
@@ -129,13 +142,19 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     backgroundColor: "#FFFFFF",
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: "#3B3B3B",
+  },
+  headerIcons: {
+    flexDirection: "row",
+   
+    alignItems: "center",
   },
   searchContainer: {
     flexDirection: "row",
@@ -228,22 +247,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#3B3B3B",
     marginTop: 8,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#FFFFFF",
-    padding: 10,
-    borderTopColor: "#DDD",
-    borderTopWidth: 1,
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontSize: 12,
-    color: "#3B3B3B",
-    marginTop: 4,
   },
 });
 
