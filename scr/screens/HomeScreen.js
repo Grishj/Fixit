@@ -24,11 +24,11 @@ const HomePage = ({ navigation }) => {
           <Text style={styles.title}>HomeSolution</Text>
           <View style={styles.headerIcons}>
             <TouchableOpacity onPress={() => console.log('Notifications')}>
-              <Ionicons name="notifications" size={24} color="black" />
+            <Ionicons name="notifications" size={24} color="#808080" style={{ marginRight: 10 }} />
             </TouchableOpacity>
             <View style={styles.iconSpacer} />
             <TouchableOpacity onPress={() => console.log('Favourites')}>
-              <Ionicons name="heart" size={24} color="black" />
+              <Ionicons name="heart" size={24} color="#808080" />
             </TouchableOpacity>
           </View>
         </View>
