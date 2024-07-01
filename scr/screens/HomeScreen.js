@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,39 +8,81 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Linking,
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import * as IntentLauncher from "expo-intent-launcher";
 import CategoriesScreen from "./CategoriesScreen";
 
 const HomePage = ({ navigation }) => {
+  const [location, setLocation] = useState("");
+
+  const openGoogleMaps = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission to access location was denied");
+        return;
+      }
+
+      const userLocation = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = userLocation.coords;
+      const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+      // Open Google Maps with the user's current location
+      IntentLauncher.startActivityAsync(IntentLauncher.ACTION_VIEW, {
+        data: url,
+      });
+    } catch (error) {
+      console.error("Error opening Google Maps:", error);
+      alert("Error opening Google Maps. Please try again.");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-            <Ionicons name="menu" size={24} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.title}>HomeSolution</Text>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity onPress={() => console.log('Notifications')}>
-            <Ionicons name="notifications" size={24} color="#808080" style={{ marginRight: 10 }} />
-            </TouchableOpacity>
-            <View style={styles.iconSpacer} />
-            <TouchableOpacity onPress={() => console.log('Favourites')}>
-              <Ionicons name="heart" size={24} color="#808080" />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.searchContainer}>
-          <TextInput style={styles.searchInput} placeholder="Search" />
-          <TouchableOpacity style={styles.searchButton}>
-            <FontAwesome5 name="search" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
-
         <ScrollView style={styles.scrollView}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <Ionicons name="menu" size={24} color="black" />
+            </TouchableOpacity>
+            <Text style={styles.title}>HomeSolution</Text>
+            <View style={styles.headerIcons}>
+              <TouchableOpacity onPress={() => console.log("Notifications")}>
+                <Ionicons
+                  name="notifications"
+                  size={24}
+                  color="#808080"
+                  style={{ marginRight: 10 }}
+                />
+              </TouchableOpacity>
+              <View style={styles.iconSpacer} />
+              <TouchableOpacity onPress={() => console.log("Favourites")}>
+                <Ionicons name="heart" size={24} color="#808080" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.searchContainer}>
+  <TextInput
+    style={styles.searchInput}
+    placeholder="Set your location"
+    value={location}
+    onChangeText={setLocation}
+  />
+  <TouchableOpacity onPress={openGoogleMaps} style={styles.searchButton}>
+    <Ionicons name="location-sharp" size={20} color="white" />
+  </TouchableOpacity>
+</View>
+          <View style={styles.searchContainer}>
+  <TextInput style={styles.searchInput} placeholder="Search for expert" />
+  <TouchableOpacity style={styles.searchButton}>
+    <FontAwesome5 name="search" size={20} color="white" />
+  </TouchableOpacity>
+</View>
+
+
           <View style={styles.servicesContainer}>
             <Text>Popular Services</Text>
           </View>
@@ -54,7 +96,9 @@ const HomePage = ({ navigation }) => {
               <TouchableOpacity
                 key={index}
                 style={styles.categoryItem}
-                onPress={() => navigation.navigate('ServiceDetails', { CategoriesScreen })}
+                onPress={() =>
+                  navigation.navigate("ServiceDetails", { CategoriesScreen })
+                }
               >
                 <View
                   style={[
@@ -102,7 +146,6 @@ const HomePage = ({ navigation }) => {
             </ScrollView>
           </View>
         </ScrollView>
-        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -127,13 +170,12 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#F7F7F7",
-  paddingVertical:17,
-  paddingBottom: 0,
-    marginBottom:'auto',
+    paddingVertical: 17,
+    paddingBottom: 0,
+    marginBottom: "auto",
   },
   container: {
     flex: 1,
-    
   },
   scrollView: {
     flex: 1,
@@ -148,13 +190,26 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#3B3B3B",
   },
   headerIcons: {
     flexDirection: "row",
-   
     alignItems: "center",
+  },
+  locationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#FFFFFF",
+  },
+  locationInput: {
+    flex: 1,
+    height: 40,
+    borderColor: "#DDD",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingLeft: 8,
   },
   searchContainer: {
     flexDirection: "row",

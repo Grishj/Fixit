@@ -30,21 +30,13 @@ const ProfileScreen = ({ navigation }) => {
           <Icon name="insert-drive-file" size={24} color="#756e80" />
           <Text style={styles.rowText}>Documents</Text>
         </TouchableOpacity>
-        <View style={styles.row}>
-          <Icon name="location-on" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Turn your location</Text>
-          <Switch
-            value={locationEnabled}
-            onValueChange={setLocationEnabled}
-          />
-        </View>
-      </View>
-      <View style={styles.section}>
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('BankAccount')}>
-          <Icon name="account-balance" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Bank Account</Text>
+        
+        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('BookingScreen')}>
+          <Icon name="book" size={24} color="#756e80" />
+          <Text style={styles.rowText}>My Bookings</Text>
         </TouchableOpacity>
       </View>
+      
       <View style={styles.section}>
         <View style={styles.row}>
           <Icon name="notifications" size={24} color="#756e80" />
@@ -77,14 +69,16 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.rowText}>Change password</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.section}>
-      <View style={styles.row}>
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('SignInScreen')}>
-          <Icon name="logout" size={24} color="#756e80" />
-          <Text style={styles.rowText}>LogOut</Text>
-        </TouchableOpacity>
+     <View style={styles.section}>
+  <View style={[styles.row, { justifyContent: 'space-between' }]}>
+    <TouchableOpacity style={styles.rowContainer} onPress={() => navigation.navigate('SignInScreen')}>
+      <View style={styles.rowContent}>
+        <Icon name="logout" size={24} color="#756e80" />
+        <Text style={styles.rowText}>LogOut</Text>
       </View>
-      </View>
+    </TouchableOpacity>
+  </View>
+</View>
     </ScrollView>
   );
 };
@@ -140,6 +134,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     
     fontSize: 16,
+  },
+  rowContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
   },
 });
 
