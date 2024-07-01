@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -7,14 +7,12 @@ const SignInScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async () => {
-   
     if (!email.includes('@')) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
 
     try {
-      
       const response = await fetch('/api/signin', {
         method: 'POST',
         headers: {
@@ -24,12 +22,10 @@ const SignInScreen = ({ navigation }) => {
       });
 
       if (response.ok) {
-        
-        navigation.navigate('SignUpScreen');
+        navigation.navigate('HomeScreen'); // Adjust to the correct screen after sign-in
       } else {
         const error = await response.json();
         Alert.alert('Sign-in Error', error.message);
-        navigation.navigate('SignUp');
       }
     } catch (error) {
       console.error('Sign-in error:', error);
@@ -39,6 +35,8 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+    <Text style={{ fontSize: 24, fontWeight: 'bold', justifyContent: 'left',paddingVertical:15 }}>Welcome Back</Text>
+    
       <Text style={styles.title}>Sign In</Text>
       <TextInput
         style={styles.input}
@@ -65,15 +63,20 @@ const SignInScreen = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
+      
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+       
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <View style={{ flexDirection: 'row', marginTop: 0 }}>
-      <Text style={{ color: '#000', fontSize: 16 }}>Don't have an account? </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
-        <Text style={styles.link}> Sign Up</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+        <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
       </TouchableOpacity>
-    </View>
+      <View style={{ flexDirection: 'row', marginTop: 10 }}>
+        <Text style={{ color: '#000', fontSize: 16 }}>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+          <Text style={styles.link}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -124,6 +127,11 @@ const styles = StyleSheet.create({
   passwordIconImage: {
     width: 24,
     height: 24,
+  },
+  forgotPasswordLink: {
+    color: '#007aff',
+    fontSize: 16,
+    marginBottom: 20,
   },
   button: {
     width: '100%',

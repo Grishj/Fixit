@@ -6,7 +6,7 @@ import SignUpScreen from './SignUpScreen';
 
 import DrawerNavigator from './DrawerNavigator';
 import HomePage from './HomeScreen';
-
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +19,7 @@ function StackNavigator () {
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{headerShown: false}} />
        
         <Stack.Screen name="SignInScreen" component={SignInScreen}  options={{headerShown: false}}/>
+        <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen}  options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={DrawerNavigator} options={{headerShown: false}} />
        
        
