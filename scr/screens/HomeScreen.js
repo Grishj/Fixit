@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,39 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Linking,
+  Modal,
+  Button,
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import * as IntentLauncher from "expo-intent-launcher";
 import CategoriesScreen from "./CategoriesScreen";
+import ServiceDetails from "./ServiceDetailScreen";
 
 const HomePage = ({ navigation }) => {
   const [location, setLocation] = useState("");
+  const [isNotificationVisible, setNotificationVisible] = useState(false);
+  const [isFavoriteVisible, setFavoriteVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPopularServices, setFilteredPopularServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
+
+  useEffect(() => {
+    const searchTerm = searchQuery.toLowerCase();
+
+    // Filter both Popular and Our Services based on the search query
+    setFilteredPopularServices(
+      popularServices.filter((service) =>
+        service.name.toLowerCase().includes(searchTerm)
+      )
+    );
+
+    setFilteredServices(
+      services.filter((service) =>
+        service.name.toLowerCase().includes(searchTerm)
+      )
+    );
+  }, [searchQuery]);
 
   const openGoogleMaps = async () => {
     try {
@@ -30,7 +54,6 @@ const HomePage = ({ navigation }) => {
       const { latitude, longitude } = userLocation.coords;
       const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
-      // Open Google Maps with the user's current location
       IntentLauncher.startActivityAsync(IntentLauncher.ACTION_VIEW, {
         data: url,
       });
@@ -40,104 +63,133 @@ const HomePage = ({ navigation }) => {
     }
   };
 
+  const handleSearch = () => {
+    const exactMatchPopularService = filteredPopularServices.find(
+      (service) => service.name.toLowerCase() === searchQuery.toLowerCase()
+    );
+
+    const exactMatchService = filteredServices.find(
+      (service) => service.name.toLowerCase() === searchQuery.toLowerCase()
+    );
+
+    // Navigate to the exact match if found
+    if (exactMatchPopularService) {
+      navigation.navigate("ServiceDetails", { service: exactMatchPopularService });
+    } else if (exactMatchService) {
+      navigation.navigate("ServiceDetails", { service: exactMatchService });
+    } else {
+      alert("Service not found. Please refine your search.");
+    }
+  };
+
+  const handleServiceClick = (service) => {
+    const isNewUser = true; // Replace with actual logic to check if the user is new
+
+    if (isNewUser) {
+      navigation.navigate("SignUpChoiceScreen");
+    } else {
+      navigation.navigate("ServiceDetails", { service });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <Ionicons name="menu" size={24} color="black" />
-            </TouchableOpacity>
-            <Text style={styles.title}>HomeSolution</Text>
-            <View style={styles.headerIcons}>
-              <TouchableOpacity onPress={() => console.log("Notifications")}>
-                <Ionicons
-                  name="notifications"
-                  size={24}
-                  color="#808080"
-                  style={{ marginRight: 10 }}
-                />
+          {/* Header, Search Location, and Search for Service View */}
+          <View style={styles.headerSearchContainer}>
+            {/* Header */}
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                <Ionicons name="menu" size={30} color="black" />
               </TouchableOpacity>
-              <View style={styles.iconSpacer} />
-              <TouchableOpacity onPress={() => console.log("Favourites")}>
-                <Ionicons name="heart" size={24} color="#808080" />
+              <Text style={styles.title}>HomeSolution</Text>
+              <View style={styles.headerIcons}>
+                {/* Notification Icon */}
+                <TouchableOpacity onPress={() => setNotificationVisible(true)}>
+                  <Ionicons
+                    name="notifications"
+                    size={24}
+                    color="#000"
+                    style={{ marginRight: 15 }}
+                  />
+                </TouchableOpacity>
+
+                {/* Favorite Icon */}
+                <TouchableOpacity onPress={() => setFavoriteVisible(true)}>
+                  <Ionicons name="heart" size={24} color="#000" style={{ marginRight: 5 }} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Search Location */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Set your location"
+                value={location}
+                onChangeText={setLocation}
+              />
+              <TouchableOpacity onPress={openGoogleMaps} style={styles.searchButton}>
+                <Ionicons name="location-sharp" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Search for Service */}
+            <View style={styles.searchContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search for Service"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+                <FontAwesome5 name="search" size={20} color="white" />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.searchContainer}>
-  <TextInput
-    style={styles.searchInput}
-    placeholder="Set your location"
-    value={location}
-    onChangeText={setLocation}
-  />
-  <TouchableOpacity onPress={openGoogleMaps} style={styles.searchButton}>
-    <Ionicons name="location-sharp" size={20} color="white" />
-  </TouchableOpacity>
-</View>
-          <View style={styles.searchContainer}>
-  <TextInput style={styles.searchInput} placeholder="Search for expert" />
-  <TouchableOpacity style={styles.searchButton}>
-    <FontAwesome5 name="search" size={20} color="white" />
-  </TouchableOpacity>
-</View>
 
-
+          {/* Services Section View */}
           <View style={styles.servicesContainer}>
-            <Text>Popular Services</Text>
-          </View>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.categoriesContainer}
-          >
-            {categories.map((category, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.categoryItem}
-                onPress={() =>
-                  navigation.navigate("ServiceDetails", { CategoriesScreen })
-                }
-              >
-                <View
-                  style={[
-                    styles.categoryIcon,
-                    { backgroundColor: category.color },
-                  ]}
+            <Text style={styles.sectionTitle}>Popular Services</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
+              {filteredPopularServices.map((category, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.categoryItem}
+                  onPress={() => navigation.navigate("ServiceDetails", { CategoriesScreen })}
                 >
-                  <FontAwesome5 name={category.icon} size={24} color="white" />
-                </View>
-                <Text style={styles.categoryText}>{category.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+                  <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
+                    <FontAwesome5 name={category.icon} size={24} color="white" />
+                  </View>
+                  <Text style={styles.categoryText}>{category.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            
 
-          <View style={styles.offerContainer}>
-            <Text style={styles.offerText}>Offer Painting Service</Text>
-            <Text style={styles.discountText}>Get 25%</Text>
-            <TouchableOpacity style={styles.offerButton}>
-              <Text style={styles.offerButtonText}>Grab Offer</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.offerContainer}>
-            <Text style={styles.offerText}>Offer Electronics Service</Text>
-            <Text style={styles.discountText}>Get 20%</Text>
-            <TouchableOpacity style={styles.offerButton}>
-              <Text style={styles.offerButtonText}>Grab Offer</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.servicesContainer}>
+            {/* Our Services Section */}
             <Text style={styles.sectionTitle}>Our Services</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {services.map((service, index) => (
+              {filteredServices.map((service, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.serviceItem}
-                  onPress={() =>
-                    navigation.navigate("ServiceDetails", { service })
-                  }
+                  onPress={() => navigation.navigate("ServiceDetails", { service })}
+                >
+                  <Image source={service.image} style={styles.serviceImage} />
+                  <Text style={styles.serviceText}>{service.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+             {/* Our Services Section */}
+             <Text style={styles.sectionTitle}>Our Services2</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {filteredServices.map((service, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.serviceItem}
+                  onPress={() => navigation.navigate("ServiceDetails", { service })}
                 >
                   <Image source={service.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{service.name}</Text>
@@ -145,13 +197,42 @@ const HomePage = ({ navigation }) => {
               ))}
             </ScrollView>
           </View>
+
+          {/* Notification Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isNotificationVisible}
+            onRequestClose={() => setNotificationVisible(false)}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalTitle}>Notifications</Text>
+              <Text>No new notifications at the moment.</Text>
+              <Button title="Close" onPress={() => setNotificationVisible(false)} />
+            </View>
+          </Modal>
+
+          {/* Favorite Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isFavoriteVisible}
+            onRequestClose={() => setFavoriteVisible(false)}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalTitle}>Favorites</Text>
+              <Text>No favorite items added yet!</Text>
+              <Button title="Close" onPress={() => setFavoriteVisible(false)} />
+            </View>
+          </Modal>
+
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 
-const categories = [
+const popularServices = [
   { name: "AC Repair", icon: "tools", color: "#FF6584" },
   { name: "Painting", icon: "paint-brush", color: "#7F63D3" },
   { name: "Electronics", icon: "tv", color: "#00C4B4" },
@@ -170,23 +251,30 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#F7F7F7",
-    paddingVertical: 17,
-    paddingBottom: 0,
-    marginBottom: "auto",
+    marginTop:0,
   },
   container: {
     flex: 1,
+    
+    
   },
   scrollView: {
     flex: 1,
     backgroundColor: "#F7F7F7",
+  },
+  headerSearchContainer: {
+    marginBottom: 16,
+  
+    borderRadius:15,
+
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#FFFFFF",
+    
+   
   },
   title: {
     fontSize: 24,
@@ -197,25 +285,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  locationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "#FFFFFF",
-  },
-  locationInput: {
-    flex: 1,
-    height: 40,
-    borderColor: "#DDD",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 8,
-  },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#FFFFFF",
+    padding: 15,
+    
+    
   },
   searchInput: {
     flex: 1,
@@ -231,13 +306,26 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginLeft: 8,
   },
-  categoriesContainer: {
-    flexDirection: "row",
+  servicesContainer: {
     padding: 16,
+    borderTopLeftRadius: 20,  // Rounded top left corner
+    borderTopRightRadius: 20,
+    backgroundColor:'#ffe4cd',
+    marginBottom: 20,
+    
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#3B3B3B",
+    marginBottom: 8, // Maintain space below the title
+    marginTop: 20,
   },
   categoryItem: {
     alignItems: "center",
+    
     marginRight: 16,
+    borderRadius: 15,
   },
   categoryIcon: {
     width: 50,
@@ -250,44 +338,6 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     color: "#3B3B3B",
-  },
-  offerContainer: {
-    backgroundColor: "#E5F6F5",
-    padding: 16,
-    alignItems: "center",
-    margin: 16,
-    borderRadius: 8,
-  },
-  offerText: {
-    fontSize: 16,
-    color: "#3B3B3B",
-    marginBottom: 8,
-  },
-  discountText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#3B3B3B",
-    marginBottom: 8,
-  },
-  offerButton: {
-    backgroundColor: "#3B3B3B",
-    padding: 10,
-    borderRadius: 8,
-  },
-  offerButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  servicesContainer: {
-    padding: 16,
-    fontSize: 23,
-    fontWeight: "bold",
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#3B3B3B",
-    marginBottom: 8,
   },
   serviceItem: {
     alignItems: "center",
@@ -302,6 +352,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#3B3B3B",
     marginTop: 8,
+  },
+  // Modal styles
+  modalView: {
+    margin: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
 

@@ -12,4 +12,5 @@
   <style name="Theme.App.SplashScreen" parent="AppTheme">
     <item name="android:windowBackground">@drawable/splashscreen</item>
   </style>
+   <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">(api key here)</string>
 </resources>

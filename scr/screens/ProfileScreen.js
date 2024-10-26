@@ -1,149 +1,133 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, Switch, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ProfileScreen = ({ navigation }) => {
-  const [locationEnabled, setLocationEnabled] = useState(false);
-  const [activityNotifications, setActivityNotifications] = useState(true);
-  const [emailNotifications, setEmailNotifications] = useState(false);
-  const [touchID, setTouchID] = useState(true);
-
+export default function ProfileScreen() {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-      <TouchableOpacity style={styles.profilePicture}>
-          <Image source={require('../images/Image.jpg')} style={styles.profileImage} />
-          <Icon name="camera" size={20} color="#fff" style={styles.cameraIcon} />
+    <View style={styles.container}>
+      <View style={styles.profileContainer}>
+      <Image
+  source={require('../images/electricity.jpg')}
+  style={[styles.image, styles.profileImage]}
+/>
+        <Text style={styles.profileName}>Anil Karki</Text>
+        <Text style={styles.username}>@karki.anil37</Text>
+        <TouchableOpacity style={styles.editButton}>
+          <Text style={styles.editButtonText}>Edit Profile</Text>
         </TouchableOpacity>
-        <View style={styles.userInfo}>
-          <Text style={styles.name}>HomeSolution</Text>
-          <Text style={styles.phone}>976554321</Text>
-        </View>
+      </View>
 
-      </View>
-      <View style={styles.section}>
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('AccountDetails')}>
-          <Icon name="person" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Account details</Text>
+      <ScrollView style={styles.optionsContainer}>
+        <TouchableOpacity style={styles.option}>
+          <Icon name="gear" size={20} color="#000" />
+          <Text style={styles.optionText}>Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Documents')}>
-          <Icon name="insert-drive-file" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Documents</Text>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="credit-card" size={20} color="#000" />
+          <Text style={styles.optionText}>Billings</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('BookingScreen')}>
-          <Icon name="book" size={24} color="#756e80" />
-          <Text style={styles.rowText}>My Bookings</Text>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="info-circle" size={20} color="#000" />
+          <Text style={styles.optionText}>Help & Support</Text>
         </TouchableOpacity>
-      </View>
-      
-      <View style={styles.section}>
-        <View style={styles.row}>
-          <Icon name="notifications" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Activities notifications</Text>
-          <Switch
-            value={activityNotifications}
-            onValueChange={setActivityNotifications}
-          />
-        </View>
-        <View style={styles.row}>
-          <Icon name="email" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Email notification</Text>
-          <Switch
-            value={emailNotifications}
-            onValueChange={setEmailNotifications}
-          />
-        </View>
-      </View>
-      <View style={styles.section}>
-        <View style={styles.row}>
-          <Icon name="fingerprint" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Sign in with touch ID</Text>
-          <Switch
-            value={touchID}
-            onValueChange={setTouchID}
-          />
-        </View>
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('ChangePassword')}>
-          <Icon name="lock" size={24} color="#756e80" />
-          <Text style={styles.rowText}>Change password</Text>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="shield" size={20} color="#000" />
+          <Text style={styles.optionText}>Privacy Policy</Text>
         </TouchableOpacity>
-      </View>
-     <View style={styles.section}>
-  <View style={[styles.row, { justifyContent: 'space-between' }]}>
-    <TouchableOpacity style={styles.rowContainer} onPress={() => navigation.navigate('SignInScreen')}>
-      <View style={styles.rowContent}>
-        <Icon name="logout" size={24} color="#756e80" />
-        <Text style={styles.rowText}>LogOut</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-</View>
-    </ScrollView>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="comments" size={20} color="#000" />
+          <Text style={styles.optionText}>FAQ</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="trash" size={20} color="#000" />
+          <Text style={styles.optionText}>Delete Account</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.option}>
+          <Icon name="sign-out" size={20} color="#000" />
+          <Text style={styles.optionText}>Logout</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical:28,
     backgroundColor: '#fff',
+    borderRadius:5,
   },
-  header: {
+  profileContainer: {
     alignItems: 'center',
     paddingVertical: 20,
-    backgroundColor: 'grey',
+    backgroundColor:'#ffe4cd',
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 60,
-  },
-  cameraIcon: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  },
-  name: {
-    marginTop: 10,
-    fontSize: 18,
-    color: '#fff',
-  },
-  phone: {
-    marginTop: 10,
-    fontSize: 18,
-    color: '#fff',
-  },
-  section: {
-    marginVertical: 1,
-  },
-  userInfo: {
-    marginLeft: 1,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderBottomWidth: 4,
-
-    borderBottomColor: '#eee',
-  },
-  rowText: {
-    flex: 1,
-    marginLeft: 10,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginTop:10,
     
+  },
+  profileName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  username: {
+    color: 'gray',
+  },
+  editButton: {
+    backgroundColor: '#ff7f50',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginTop: 10,
+  },
+  editButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  optionsContainer: {
+    marginVertical: 20,
+    
+
+
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  optionText: {
     fontSize: 16,
+    marginLeft: 20,
   },
-  rowContent: {
+  footer: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+  },
+  footerButton: {
     alignItems: 'center',
   },
-  rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
+  footerText: {
+    fontSize: 12,
+    marginTop: 4,
+    color: 'gray',
   },
 });
-
-export default ProfileScreen;
