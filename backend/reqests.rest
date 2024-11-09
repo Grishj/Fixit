@@ -1,0 +1,34 @@
+# Use extension "REST Client" to request APIs
+### Setup Testing
+GET http://localhost:3000/
+### Get users
+GET http://localhost:3000/users
+
+### Get a user
+GET http://localhost:3000/user/26
+
+### login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "sth66@ath.com",
+  "password" : "pw"
+}
+
+### Get services
+GET http://localhost:3000/services
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjRAYXRoLmNvbSIsImlhdCI6MTczMDM3Mjk0NSwiZXhwIjoxNzMwMzczNTQ1fQ.rINh227fij1Mw12WbtR4P218lD2_ERVTJQ0DYkH11ME
+
+### Signup
+POST http://localhost:3000/createUser
+Content-Type: multipart/form-data
+
+name=suwi
+location_latitude=45
+location_longitude=45
+contact_email=sth1@ath.com
+contact_phone=9841123463
+password=pw
+
+image=@C:/Users/USER/OneDrive/Pictures/EngT.jpg
