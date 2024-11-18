@@ -11,7 +11,6 @@ const app = express();
 app.use(express.json());
 
 const login = require("./routes/user/login.js");
-const signup = require("./routes/user/signup.js");
 const getUsers = require("./routes/user/getUsers.js");
 const getUser = require("./routes/user/getUser.js");
 const createUser = require("./routes/user/createUser.js");
@@ -19,7 +18,6 @@ const deleteUser = require("./routes/user/deleteUser.js");
 const updateUser = require("./routes/user/updateUser.js");
 
 const plogin = require("./routes/serviceProvider/login.js");
-const psignup = require("./routes/serviceProvider/signup.js");
 const createProvider = require("./routes/serviceProvider/createProvider.js");
 const getProvider = require("./routes/serviceProvider/getProvider.js");
 const getProviders = require("./routes/serviceProvider/getProviders.js");
@@ -49,17 +47,15 @@ app.get("/", (req, resp) => {
 
 // User API Routes
 app.use("/login", login); //post
-app.use("/signup", signup); //post
+app.use("/signup", createUser); //post
 app.use("/users", getUsers); //get all users
 app.use("/user", getUser); //get 1 user with their id.
-app.use("/createUser", createUser);
 app.use("/updateUser", updateUser);
 app.use("/deleteUser", deleteUser);
 
 // Service Provider API Routes
 app.use("/plogin", plogin);
-app.use("/psignup", psignup);
-app.use("/createProvider", createProvider);
+app.use("/psignup", createProvider);
 app.use("/provider", getProvider);
 app.use("/providers", getProviders);
 app.use("/updateProvider", updateProvider);

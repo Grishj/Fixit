@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### Get services
 GET http://localhost:3000/services
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjRAYXRoLmNvbSIsImlhdCI6MTczMDM3Mjk0NSwiZXhwIjoxNzMwMzczNTQ1fQ.rINh227fij1Mw12WbtR4P218lD2_ERVTJQ0DYkH11ME
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjZAYXRoLmNvbSIsImlhdCI6MTczMTk0NzYxOCwiZXhwIjoxNzMxOTQ4MjE4fQ._MocK7usZeB_4nl4zhajlI7xUi69O7ezDFb2iUeiFRE
 
 ### Signup
 POST http://localhost:3000/createUser
