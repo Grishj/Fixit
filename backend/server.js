@@ -34,7 +34,6 @@ const booking = require("./routes/booking/booking.js");
 const bookingStatus = require("./routes/booking/updateStatus.js");
 
 const message = require("./routes/contact/message.js");
-const reply = require("./routes/contact/reply.js");
 const call = require("./routes/contact/call.js");
 
 const notfound = require("./routes/404.js");
@@ -73,9 +72,8 @@ app.use("/booking", booking);
 app.use("/bookingStatus", bookingStatus);
 
 // Contact
-app.use("/message", message);
-app.use("/reply", reply);
 app.use("/call", call); //send id or spid to get phone number
+app.use("/message", message);
 
 app.use("*", notfound); // 404 page
 

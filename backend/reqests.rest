@@ -1,11 +1,18 @@
 # Use extension "REST Client" to request APIs
 ### Setup Testing
 GET http://localhost:3000/
+
+### 404 testing 
+GET http://localhost:3000/jpt
+
+
+
+############# USER RELATED #####################
 ### Get users
 GET http://localhost:3000/users
 
 ### Get a user
-GET http://localhost:3000/user/26
+GET http://localhost:3000/user/69
 
 ### login
 POST http://localhost:3000/login
@@ -15,13 +22,8 @@ Content-Type: application/json
   "email": "sth66@ath.com",
   "password" : "pw"
 }
-
-### Get services
-GET http://localhost:3000/services
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjZAYXRoLmNvbSIsImlhdCI6MTczMTk0NzYxOCwiZXhwIjoxNzMxOTQ4MjE4fQ._MocK7usZeB_4nl4zhajlI7xUi69O7ezDFb2iUeiFRE
-
 ### Signup
-POST http://localhost:3000/createUser
+POST http://localhost:3000/signup
 Content-Type: multipart/form-data
 
 name=suwi
@@ -30,5 +32,37 @@ location_longitude=45
 contact_email=sth1@ath.com
 contact_phone=9841123463
 password=pw
-
 image=@C:/Users/USER/OneDrive/Pictures/EngT.jpg
+
+############ SERVICE PROVIDERS RELATED ##
+
+### Get Service Providers
+GET http://localhost:3000/providers
+
+################### SERVICE RELATED ############
+
+### Get services
+GET http://localhost:3000/services
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjZAYXRoLmNvbSIsImlhdCI6MTczMTk0NzYxOCwiZXhwIjoxNzMxOTQ4MjE4fQ._MocK7usZeB_4nl4zhajlI7xUi69O7ezDFb2iUeiFRE
+
+
+################# CONTACT RELATED #########
+### Call (get phone number)
+GET http://localhost:3000/call
+Content-Type: application/json
+
+{
+  "id": 69
+  # send either id or spid only
+}
+
+### Message
+POST http://localhost:3000/message
+Content-Type: application/json
+
+{
+  "id": 69,
+  "spid": 3,
+  "messagetext": "Test message",
+  "senderType": "user"
+}

@@ -10,34 +10,34 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         name,
         location_latitude,
         location_longitude,
-        contact_email,
-        contact_phone,
+        email,
+        phone,
         password,
     } = req.body;
     const profile_picture = req.file;
     hashedPassword = await hashPassword(password);
 
     const query = `
-    INSERT INTO users (name, location_latitude, location_longitude, contact_email, contact_phone, password, profile_picture)
+    INSERT INTO users (name, location_latitude, location_longitude, email, phone, password, profile_picture)
     VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;`;
     const values = [
         name,
         location_latitude,
         location_longitude,
-        contact_email,
-        contact_phone,
+        email,
+        phone,
         hashedPassword,
         profile_picture,
     ];
 
     const dupliPhone = await client.query(
-        `SELECT * FROM users WHERE contact_phone = ${contact_phone}`
+        `SELECT * FROM users WHERE phone = ${phone}`
     );
     duplicatePhone = dupliPhone.rowCount;
     // Some errors here..
     const dupliEmail = await client.query(
-        `SELECT * FROM users WHERE contact_email='${contact_email}'`
+        `SELECT * FROM users WHERE email='${email}'`
     );
     duplicateEmail = dupliEmail.rowCount;
     if (
@@ -46,8 +46,8 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         password &&
         location_longitude &&
         location_latitude &&
-        contact_email &&
-        contact_phone
+        email &&
+        phone
     ) {
         client.query(query, values, (err, result) => {
             if (err) {
@@ -66,9 +66,9 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         resp.send("Password is required !!");
     } else if (!(location_latitude && location_longitude)) {
         resp.send("Location is required !!");
-    } else if (!contact_email) {
+    } else if (!email) {
         resp.send("Email is required !!");
-    } else if (!contact_phone) {
+    } else if (!phone) {
         resp.send("Phone is required !!");
     } else if (duplicateEmail && duplicatePhone) {
         resp.send("Email and Phone are already registered !!");
@@ -77,7 +77,7 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
     } else if (duplicatePhone) {
         resp.send("Phone number is already registered !!");
     } else {
-        resp.send("Some Internal Error Occured !!");
+        resp.send("Some Internal Error Occurred !!");
     }
 });
 

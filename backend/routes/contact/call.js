@@ -23,12 +23,12 @@ app.get("/", async (req, res) => {
             }
         } else if (id) {
             const result = await client.query(
-                "SELECT contact_phone FROM users WHERE id = $1",
+                "SELECT phone FROM users WHERE id = $1",
                 [id]
             );
 
             if (result.rowCount > 0) {
-                const phoneNumber = result.rows[0].contact_phone;
+                const phoneNumber = result.rows[0].phone;
                 res.send(phoneNumber);
             } else {
                 res.status(404).send("User not found");

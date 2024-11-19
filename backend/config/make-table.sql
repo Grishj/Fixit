@@ -25,7 +25,7 @@ CREATE TABLE ServiceProviders (
     CONSTRAINT email_phone_unique UNIQUE (email, phone)
 );
 -- Service table
-CREATE TABLE services (
+CREATE TABLE Services (
     sid SERIAL PRIMARY KEY,
     spid INT NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -42,6 +42,7 @@ CREATE TABLE Messages (
     id INT NOT NULL,
     spid INT NOT NULL,
     MessageText TEXT,
+    senderType VARCHAR(20) NOT NULL,
     SentAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id) REFERENCES Users(id),
     FOREIGN KEY (spid) REFERENCES ServiceProviders(spid)
