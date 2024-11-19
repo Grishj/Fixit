@@ -6,7 +6,6 @@ app.use(express.json());
 app.get("/", async (req, res) => {
     const { id, spid } = req.body;
 
-    console.log(id, " ", spid);
     console.log(req.body);
     try {
         if (spid) {
@@ -17,7 +16,7 @@ app.get("/", async (req, res) => {
 
             if (result.rowCount > 0) {
                 const phoneNumber = result.rows[0].phone;
-                res.send(phoneNumber);
+                res.status(200).send(phoneNumber);
             } else {
                 res.status(404).send("Service Provider not found");
             }
@@ -34,7 +33,9 @@ app.get("/", async (req, res) => {
                 res.status(404).send("User not found");
             }
         } else {
-            res.send("User id or Service provider id not passed !!");
+            res.status(404).send(
+                "User id or Service provider id not passed !!"
+            );
         }
     } catch (err) {
         console.error(err);

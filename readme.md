@@ -27,7 +27,7 @@ Home Solution is an online platform that allows users to find various home servi
 ## Technologies Used
 
 -   **Frontend:**
-    -   React.js (Web)
+    <!-- -   React.js (Web) -->
     -   React Native (Mobile)
 -   **Backend:**
     -   Node.js
@@ -37,7 +37,7 @@ Home Solution is an online platform that allows users to find various home servi
 -   **Others:**
     -   JWT for authentication
     -   Axios for HTTP requests
-    -   Sequelize ORM for PostgreSQL
+    <!-- -   Sequelize ORM for PostgreSQL -->
 
 ## Setup and Installation
 
@@ -46,20 +46,19 @@ Home Solution is an online platform that allows users to find various home servi
     git clone https://github.com/Grishj/homeSolution.git
     cd homeSolution
     ```
-2. Run backend server:
+2. Run React Native App:
+    ```bash
+    npm install
+    npx expo start
+    ```
+3. Run backend server:
     ```bash
     cd backend
     npm install
     node server.js
     ```
-3. Run React Native App:
-    ```bash
-    cd ..
-    npm install
-    npx expo start
-    ```
-4. Run React App
-    ```bash
-    cd react
-    npm run dev
-    ```
+    <!-- 4. Run React App
+        ```bash
+        cd react
+        npm run dev
+        ``` -->
