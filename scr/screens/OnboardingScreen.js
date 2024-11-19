@@ -42,12 +42,12 @@ const OnboardingScreen = () => {
       setCurrentSlideIndex(nextIndex);
       flatListRef.current.scrollToIndex({ index: nextIndex });
     } else {
-      navigation.navigate('SignInScreen');
+      navigation.navigate('SignUpScreen');
     }
   };
 
   const skipOnboarding = () => {
-    navigation.navigate('SignInScreen');
+    navigation.navigate('SignUpScreen');
   };
 
   const renderSlide = ({ item }) => {

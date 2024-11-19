@@ -17,21 +17,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Stack Navigator for Home
-const HomeStackNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Homei"
-        component={HomeScreen}
-        options={{ headerShown: false }} // Hide header for the Home screen
-      />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Categories" component={CategoriesScreen} />
-      <Stack.Screen name="Booking" component={BookingScreen} />
-      <Stack.Screen name="ServiceProvider" component={ServiceProviderScreen} />
-    </Stack.Navigator>
-  );
-};
+
 
 // Bottom Tab Navigator
 const BottomTabNavigator = () => {

@@ -38,7 +38,7 @@ const SignUpScreen = ({ navigation }) => {
         // Sign-in failed, show error message and redirect to Sign Up screen
         const error = await response.json();
         Alert.alert('Sign-up Error', error.message);
-        navigation.navigate('SignUp');
+        navigation.navigate('AppNavigator');
       }
     } catch (error) {
       console.error('Sign-up error:', error);
@@ -99,7 +99,7 @@ const SignUpScreen = ({ navigation }) => {
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', marginTop: 0 }}>
       <Text style={{ color: '#000', fontSize: 16 }}>Already have an account? </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
         <Text style={styles.link}> Sign in</Text>
       </TouchableOpacity>
      </View>
