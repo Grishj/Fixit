@@ -43,8 +43,8 @@ Home Solution is an online platform that allows users to find various home servi
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Grishj/homeSolution.git
-    cd homeSolution
+    git clone https://github.com/Grishj/Fixit.git
+    cd Fixit
     ```
 2. Run React Native App:
     ```bash
