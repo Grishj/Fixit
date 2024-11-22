@@ -16,6 +16,7 @@ import CategoriesScreen from "./CategoriesScreen";
 import ServiceDetailScreen from "./ServiceDetailScreen";
 import ServiceListScreen from "./ServiceListScreen";
 import BookingDetailsScreen from "./BookingDetailsScreen";
+import ChoiceScreen from "./ChoiceScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
@@ -23,6 +24,11 @@ function StackNavigator() {
       <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChoiceScreen"
+        component={ChoiceScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

@@ -7,11 +7,11 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       <View style={styles.profileContainer}>
       <Image
-  source={require('../images/electricity.jpg')}
+  source={require('../images/AC.jpeg')}
   style={[styles.image, styles.profileImage]}
 />
-        <Text style={styles.profileName}>Anil Karki</Text>
-        <Text style={styles.username}>@karki.anil37</Text>
+        <Text style={styles.profileName}>Nabin Shah</Text>
+        <Text style={styles.username}>@shah.nabin37</Text>
         <TouchableOpacity style={styles.editButton}>
           <Text style={styles.editButtonText}>Edit Profile</Text>
         </TouchableOpacity>

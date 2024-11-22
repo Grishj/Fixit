@@ -45,12 +45,12 @@ const OnboardingScreen = () => {
       setCurrentSlideIndex(nextIndex);
       flatListRef.current.scrollToIndex({ index: nextIndex });
     } else {
-      navigation.navigate('SignUpScreen');
+      navigation.navigate('ChoiceScreen');
     }
   };
 
   const skipOnboarding = () => {
-    navigation.navigate('SignUpScreen');
+    navigation.navigate('ChoiceScreen');
   };
 
   const renderSlide = ({ item }) => {
