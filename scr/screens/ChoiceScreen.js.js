@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 
-function ChoiceScreen ({ navigation })  {
+function ChoiceScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [actionType, setActionType] = useState(''); // 'Sign In' or 'Sign Up'
 
@@ -14,24 +16,40 @@ function ChoiceScreen ({ navigation })  {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>Please sign in or sign up to proceed.</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => openModal('Sign In')}
-      >
-        <Text style={styles.buttonText}>Sign In</Text>
+      {/* App Logo */}
+      <Image 
+        source={require('../images/HomeSolution.jpeg')} // Replace with the correct path to your logo file
+        style={styles.logo}
+        resizeMode="contain"
+      />
+      
+      <Text style={styles.message}>Welcome to Home Solution!</Text>
+      <Text style={styles.subMessage}>Please sign in or sign up to proceed.</Text>
+      
+      <TouchableOpacity style={styles.button} onPress={() => openModal('Sign In')}>
+        <LinearGradient
+          colors={['#007bff', '#0056b3']}
+          style={styles.gradientButton}
+        >
+          <Ionicons name="log-in-outline" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Sign In</Text>
+        </LinearGradient>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => openModal('Sign Up')}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
+
+      <TouchableOpacity style={styles.button} onPress={() => openModal('Sign Up')}>
+        <LinearGradient
+          colors={['#28a745', '#218838']}
+          style={styles.gradientButton}
+        >
+          <Ionicons name="person-add-outline" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </LinearGradient>
       </TouchableOpacity>
 
       <Modal
         transparent={true}
         visible={modalVisible}
-        animationType="slide"
+        animationType="fade"
         onRequestClose={closeModal}
       >
         <View style={styles.modalContainer}>
@@ -44,7 +62,7 @@ function ChoiceScreen ({ navigation })  {
                 navigation.navigate(actionType === 'Sign In' ? 'ProviderSignIn' : 'ProviderSignUp');
               }}
             >
-              <Text style={styles.buttonText}>As Service Provider</Text>
+              <Text style={styles.modalButtonText}>As Service Provider</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalButton}
@@ -53,7 +71,7 @@ function ChoiceScreen ({ navigation })  {
                 navigation.navigate(actionType === 'Sign In' ? 'UserSignIn' : 'UserSignUp');
               }}
             >
-              <Text style={styles.buttonText}>As User</Text>
+              <Text style={styles.modalButtonText}>As User</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={closeModal}>
               <Text style={styles.closeText}>Cancel</Text>
@@ -63,7 +81,7 @@ function ChoiceScreen ({ navigation })  {
       </Modal>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -71,30 +89,48 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
+    padding: 20,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+    borderRadius:60,
   },
   message: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginBottom: 20,
-    color: '#212529',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#343a40',
+  },
+  subMessage: {
+    fontSize: 16,
+    marginBottom: 30,
+    color: '#6c757d',
+    textAlign: 'center',
   },
   button: {
-    backgroundColor: '#007bff',
-    padding: 15,
-    borderRadius: 8,
     marginVertical: 10,
     width: '80%',
+  },
+  gradientButton: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    borderRadius: 8,
   },
   buttonText: {
     color: '#fff',
     fontWeight: '600',
+    fontSize: 16,
+    marginLeft: 10,
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   modalContent: {
     width: '80%',
@@ -102,17 +138,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#212529',
+    color: '#343a40',
   },
   modalButton: {
     backgroundColor: '#007bff',
@@ -121,6 +153,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: '100%',
     alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
   },
   closeText: {
     color: '#007bff',
