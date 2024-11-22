@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+
   View,
   Text,
   ScrollView,
@@ -16,6 +17,7 @@ import * as Location from "expo-location";
 import * as IntentLauncher from "expo-intent-launcher";
 import CategoriesScreen from "./CategoriesScreen";
 import ServiceDetails from "./ServiceDetailScreen";
+import ServiceDetailScreen from "./ServiceDetailScreen";
 
 const HomePage = ({ navigation }) => {
   const [location, setLocation] = useState("");
@@ -100,9 +102,7 @@ const HomePage = ({ navigation }) => {
           <View style={styles.headerSearchContainer}>
             {/* Header */}
             <View style={styles.header}>
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <Ionicons name="menu" size={30} color="black" />
-              </TouchableOpacity>
+              
               <Text style={styles.title}>HomeSolution</Text>
               <View style={styles.headerIcons}>
                 {/* Notification Icon */}
@@ -157,7 +157,7 @@ const HomePage = ({ navigation }) => {
                 <TouchableOpacity
                   key={index}
                   style={styles.categoryItem}
-                  onPress={() => navigation.navigate("ServiceDetails", { CategoriesScreen })}
+                  onPress={() => navigation.navigate("ServiceDetailScreen", { ServiceDetailScreen })}
                 >
                   <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
                     <FontAwesome5 name={category.icon} size={24} color="white" />
@@ -175,7 +175,7 @@ const HomePage = ({ navigation }) => {
                 <TouchableOpacity
                   key={index}
                   style={styles.serviceItem}
-                  onPress={() => navigation.navigate("ServiceDetails", { service })}
+                  onPress={() => navigation.navigate("ServiceDetailScreen", { service })}
                 >
                   <Image source={service.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{service.name}</Text>
@@ -189,7 +189,7 @@ const HomePage = ({ navigation }) => {
                 <TouchableOpacity
                   key={index}
                   style={styles.serviceItem}
-                  onPress={() => navigation.navigate("ServiceDetails", { service })}
+                  onPress={() => navigation.navigate("ServiceDetailScreen", { service })}
                 >
                   <Image source={service.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{service.name}</Text>
@@ -251,7 +251,8 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#F7F7F7",
-    marginTop:0,
+    marginTop:30,
+   
   },
   container: {
     flex: 1,
@@ -280,6 +281,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#3B3B3B",
+    paddingHorizontal:50,
+   
   },
   headerIcons: {
     flexDirection: "row",

@@ -8,7 +8,7 @@ import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import CategoriesScreen from './CategoriesScreen';
 import BookingScreen from './BookingScreen';
-import ServiceProviderScreen from './ServiceProviderScreen';
+
 import DrawerContent from './DrawerContent'; // Custom drawer
 import SignUpChoiceScreen from './SignUpChoiceScreen';
 
@@ -48,7 +48,6 @@ const BottomTabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Categories" component={CategoriesScreen} options={{ headerShown: false }}/>
       <Tab.Screen name="Booking" component={BookingScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="ServiceProvider" component={ServiceProviderScreen} options={{ headerShown: false }}/>
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );

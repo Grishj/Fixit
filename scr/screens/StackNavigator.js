@@ -12,10 +12,11 @@ import UserSignUp from "./UserSignUp";
 import ProviderSignIn from "./ProviderSignIn";
 import ProviderSignUp from "./ProviderSignUp";
 import MapIntegrationScreen from "./MapIntegrationScreen";
-const Stack = createStackNavigator();
-import ServiceListScreen from "./ServiceListScreen";
+import CategoriesScreen from "./CategoriesScreen";
 import ServiceDetailScreen from "./ServiceDetailScreen";
+import ServiceListScreen from "./ServiceListScreen";
 
+const Stack = createStackNavigator();
 function StackNavigator() {
   return (
     <Stack.Navigator initialRouteName="onboardingScreen">
@@ -58,10 +59,7 @@ function StackNavigator() {
       />
       <Stack.Screen name="ServiceList" component={ServiceListScreen} />
 
-      <Stack.Screen
-        name="ServiceDetailScreen"
-        component={ServiceDetails}
-      />
+      
        <Stack.Screen
         name="UserSignIn"
         component={UserSignIn}
@@ -82,7 +80,19 @@ function StackNavigator() {
         component={ProviderSignUp}
         options={{ title: 'Provider Sign Up' }}
       />
+      <Stack.Screen
+        name="CategoriesScreen"
+        component={CategoriesScreen}
+        options={{ title: 'Our Services' }}
+      />
+       <Stack.Screen
+        name="ServiceDetailScreen"
+        component={ServiceDetailScreen}
+        options={{ title: 'Service Details' }}
+      />
+      
     </Stack.Navigator>
+    
     
   );
 }

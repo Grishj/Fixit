@@ -27,16 +27,26 @@ const services = [
     description: 'Beautiful garden maintenance by professionals.',
     image: require('../images/pest.jpg'), // Replace with actual image path
   },
-  // Add more services as needed
 ];
 
-const ServiceDetails = ({ navigation }) => {
+const CategoriesScreen = ({ navigation }) => {
   // Render each service card
   const renderService = ({ item }) => (
     <TouchableOpacity
-      style={styles.card}
-      onPress={() => navigation.navigate('ServiceDetailScreen', { serviceId: item.id })}
-    >
+    style={styles.card}
+    onPress={() =>
+      navigation.navigate('ServiceDetailScreen', {
+        serviceId: item.id,
+        title: item.title,
+        image: item.image,
+        description: item.description,
+        providerName: 'John Doooe',
+        charges: 'NRS50/hour',
+        availability: '9:00 AM - 6:00 PM',
+      })
+    }
+  >
+  
       <Image source={item.image} style={styles.serviceImage} />
       <View style={styles.textContainer}>
         <Text style={styles.serviceTitle}>{item.title}</Text>
@@ -61,9 +71,9 @@ const ServiceDetails = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#ffe4cd',
+    backgroundColor: '#F5F5F5',
     paddingHorizontal: 15,
-    paddingTop: 40,
+    paddingTop: 20,
   },
   header: {
     fontSize: 24,
@@ -109,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ServiceDetails;
+export default CategoriesScreen;
