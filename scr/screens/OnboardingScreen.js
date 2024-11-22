@@ -13,20 +13,23 @@ const OnboardingScreen = () => {
     {
       id: 1,
       title: 'Welcome to HomeSolution',
-      description: 'Find trusted help for your everyday tasks.',
+      description: 'Service at home like never experienced before.',
       image: require('../images/HomeSolution.jpeg'),
+      backgroundColor: '#FF6347', // Tomato Red
     },
     {
       id: 2,
       title: 'Browse and Book',
       description: 'Browse through various categories and book services.',
       image: require('../images/Onboard.jpg'),
+      backgroundColor: '#faebd7',
     },
     {
       id: 3,
       title: 'Get Things Done',
       description: 'Sit back and relax while Taskers get your tasks done.',
       image: require('../images/onboard3.jpeg'),
+      backgroundColor: '#32CD32', // Lime Green
     },
   ];
 
@@ -61,7 +64,12 @@ const OnboardingScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: slides[currentSlideIndex]?.backgroundColor || '#fff' },
+      ]}
+    >
       <FlatList
         ref={flatListRef}
         data={slides}
@@ -105,14 +113,13 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   slide: {
     width: width,
     alignItems: 'center',
-    padding: 20,
+    padding: 5,
   },
   image: {
     width: '100%',
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 100,
+    bottom: 60,
     alignSelf: 'center',
   },
   dot: {
@@ -147,25 +154,17 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 10,
     width: '90%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  skipButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  skipText: {
-    color: '#007BFF',
-    fontSize: 16,
-  },
   nextButton: {
-    backgroundColor: '#007BFF',
-    paddingVertical: 10,
+    backgroundColor:'#626262',// skip rw next ko backgroundcolor
+        paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
   },
   nextText: {
     color: '#fff',
