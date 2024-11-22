@@ -40,7 +40,7 @@ const CategoriesScreen = ({ navigation }) => {
         title: item.title,
         image: item.image,
         description: item.description,
-        providerName: 'John Doooe',
+        providerName: 'John cena',
         charges: 'NRS50/hour',
         availability: '9:00 AM - 6:00 PM',
       })
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     paddingHorizontal: 15,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   header: {
     fontSize: 24,

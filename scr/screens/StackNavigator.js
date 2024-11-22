@@ -15,7 +15,7 @@ import MapIntegrationScreen from "./MapIntegrationScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import ServiceDetailScreen from "./ServiceDetailScreen";
 import ServiceListScreen from "./ServiceListScreen";
-
+import BookingDetailsScreen from "./BookingDetailsScreen";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
@@ -42,11 +42,7 @@ function StackNavigator() {
         component={ForgotPasswordScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Home"
-        component={DrawerContent}
-        options={{ headerShown: false }}
-      />
+     
       <Stack.Screen
         name="SignUpChoiceScreen"
         component={SignUpChoiceScreen}
@@ -59,41 +55,47 @@ function StackNavigator() {
       />
       <Stack.Screen name="ServiceList" component={ServiceListScreen} />
 
-      
-       <Stack.Screen
+      <Stack.Screen
         name="UserSignIn"
         component={UserSignIn}
-        options={{ title: 'User Sign In' }}
+        options={{ title: "User Sign In" }}
       />
       <Stack.Screen
         name="UserSignUp"
         component={UserSignUp}
-        options={{ title: 'User Sign Up' }}
+        options={{ title: "User Sign Up" }}
       />
       <Stack.Screen
         name="ProviderSignIn"
         component={ProviderSignIn}
-        options={{ title: 'Provider Sign In' }}
+        options={{ title: "Provider Sign In" }}
       />
       <Stack.Screen
         name="ProviderSignUp"
         component={ProviderSignUp}
-        options={{ title: 'Provider Sign Up' }}
+        options={{ title: "Provider Sign Up" }}
       />
       <Stack.Screen
         name="CategoriesScreen"
         component={CategoriesScreen}
-        options={{ title: 'Our Services' }}
+        options={{ title: "Our Services" }}
       />
        <Stack.Screen
+        name="Home"
+        component={DrawerContent}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="ServiceDetailScreen"
         component={ServiceDetailScreen}
-        options={{ title: 'Service Details' }}
+        options={{ title: "Service Details" }}
       />
-      
+      <Stack.Screen
+        name="BookingDetailsScreen"
+        component={BookingDetailsScreen}
+        options={{ title: "Booking Details" }}
+      />
     </Stack.Navigator>
-    
-    
   );
 }
 

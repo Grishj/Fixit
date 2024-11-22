@@ -11,6 +11,7 @@ import {
   Image,
   Modal,
   Button,
+  RefreshControl,
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
@@ -26,6 +27,17 @@ const HomePage = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPopularServices, setFilteredPopularServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
+  const [refreshing, setRefreshing] = useState(false); // State for pull-to-refresh
+  // Function to simulate data refresh
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      // Simulate fetching updated data
+      setFilteredPopularServices([...popularServices]); // Refresh popular services
+      setFilteredServices([...services]); // Refresh other services
+      setRefreshing(false);
+    }, 2000); // Simulate a 2-second network request
+  };
 
   useEffect(() => {
     const searchTerm = searchQuery.toLowerCase();
@@ -97,7 +109,17 @@ const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={["#3B3B3B"]} // Customize the spinner color
+              tintColor="#3B3B3B" // For iOS
+            />
+          }
+        >
           {/* Header, Search Location, and Search for Service View */}
           <View style={styles.headerSearchContainer}>
             {/* Header */}

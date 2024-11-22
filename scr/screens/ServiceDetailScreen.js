@@ -1,18 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-
-
- 
+import { useNavigation } from '@react-navigation/native';
+import BookingDetailsScreen from './BookingDetailsScreen';
 const ServiceDetailScreen = ({ route }) => {
+  const navigation = useNavigation();
   const params = route.params || {};
   const {
     title = 'Service Details',
     image = null,
     description = 'No description available.',
-    providerName = 'N/A',
-    charges = 'N/A',
-    availability = 'N/A',
+    providerName = 'Raman',
+    charges = 'NRS 100/hour',
+    availability = '9AM - 6PM',
   } = params;
+
+  const handleBookNow = () => {
+    navigation.navigate('BookingDetailsScreen', { serviceDetails: params });
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -31,9 +35,9 @@ const ServiceDetailScreen = ({ route }) => {
         <Text style={styles.detailLabel}>Availability:</Text>
         <Text style={styles.detailValue}>{availability}</Text>
       </View>
-      
-      <TouchableOpacity style={styles.bookButton}>
-        <Text style={styles.bookButtonText}>Book Now </Text>
+
+      <TouchableOpacity style={styles.bookButton} onPress={handleBookNow}>
+        <Text style={styles.bookButtonText}>Book Now</Text>
       </TouchableOpacity>
     </ScrollView>
   );
