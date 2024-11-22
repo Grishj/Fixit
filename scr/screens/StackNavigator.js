@@ -20,7 +20,7 @@ import ChoiceScreen from "./ChoiceScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="ChoiceScreen">
+    <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}
