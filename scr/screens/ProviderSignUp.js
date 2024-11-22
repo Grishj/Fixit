@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from 'react-native-vector-icons';
 
@@ -41,106 +42,116 @@ function ProviderSignUp() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <Text style={styles.title}>Provider Sign Up</Text>
+    <ImageBackground
+      source={require('../images/wow.jpg')} // Path to the background image
+      style={styles.container}
+    >
+      <KeyboardAvoidingView style={styles.inner} behavior="padding">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.formContainer}>
+            <Text style={styles.title}>Provider Sign Up</Text>
 
-          {/* Name Input */}
-          <View style={styles.inputContainer}>
-            <Ionicons name="person" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Full Name"
-              value={name}
-              onChangeText={setName}
-            />
-          </View>
-
-          {/* Email Input */}
-          <View style={styles.inputContainer}>
-            <MaterialIcons name="email" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              keyboardType="email-address"
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-            />
-          </View>
-
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry={!isPasswordVisible}
-              value={password}
-              onChangeText={setPassword}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity
-              onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-              style={styles.eyeIcon}
-            >
-              <Ionicons
-                name={isPasswordVisible ? 'eye' : 'eye-off'}
-                size={20}
-                color="#666"
+            {/* Name Input */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="person" size={20} color="#666" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Full Name"
+                value={name}
+                onChangeText={setName}
               />
+            </View>
+
+            {/* Email Input */}
+            <View style={styles.inputContainer}>
+              <MaterialIcons name="email" size={20} color="#666" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Password Input */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="lock-closed" size={20} color="#666" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry={!isPasswordVisible}
+                value={password}
+                onChangeText={setPassword}
+                autoCapitalize="none"
+              />
+              <TouchableOpacity
+                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                style={styles.eyeIcon}
+              >
+                <Ionicons
+                  name={isPasswordVisible ? 'eye' : 'eye-off'}
+                  size={20}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Confirm Password Input */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="lock-closed" size={20} color="#666" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                secureTextEntry={!isConfirmPasswordVisible}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                autoCapitalize="none"
+              />
+              <TouchableOpacity
+                onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                style={styles.eyeIcon}
+              >
+                <Ionicons
+                  name={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
+                  size={20}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Error Message */}
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+            {/* Sign Up Button */}
+            <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={isLoading}>
+              {isLoading ? (
+                <ActivityIndicator color="#FFF" />
+              ) : (
+                <Text style={styles.buttonText}>Sign Up</Text>
+              )}
             </TouchableOpacity>
           </View>
-
-          {/* Confirm Password Input */}
-          <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed" size={20} color="#666" style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Confirm Password"
-              secureTextEntry={!isConfirmPasswordVisible}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity
-              onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
-              style={styles.eyeIcon}
-            >
-              <Ionicons
-                name={isConfirmPasswordVisible ? 'eye' : 'eye-off'}
-                size={20}
-                color="#666"
-              />
-            </TouchableOpacity>
-          </View>
-
-          {/* Error Message */}
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
-          {/* Sign Up Button */}
-          <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={isLoading}>
-            {isLoading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Text style={styles.buttonText}>Sign Up</Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    justifyContent: 'center', // Ensure content is centered
   },
   inner: {
     flex: 1,
     justifyContent: 'center',
+    padding: 20,
+  },
+  formContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background for form
+    borderRadius: 10,
     padding: 20,
   },
   title: {
