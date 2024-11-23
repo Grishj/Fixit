@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AppNavigator from './scr/screens/AppNavigator'; // Main app navigation
-import StackNavigator from './scr/screens/StackNavigator'; // Authentication and onboarding
-import { UserRoleProvider } from './scr/screens/UserRoleContext'; // Import the UserRoleProvider
+import AppNavigator from './scr/screens/AppNavigator';
+import StackNavigator from './scr/screens/StackNavigator';
+import { UserRoleProvider } from './scr/screens/UserRoleContext';
+import * as SplashScreen from 'expo-splash-screen';
 
 const RootStack = createStackNavigator();
 
-function App() {
+SplashScreen.preventAutoHideAsync(); // Keep the splash screen visible
+
+export default function App() {
+  useEffect(() => {
+    const prepareApp = async () => {
+      // Perform necessary initialization tasks here
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading
+      SplashScreen.hideAsync(); // Hide the splash screen
+    };
+
+    prepareApp();
+  }, []);
+
   return (
-    <UserRoleProvider> {/* Wrap your navigation with the UserRoleProvider */}
+    <UserRoleProvider>
       <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
-          {/* Authentication and onboarding flow */}
           <RootStack.Screen name="Auth" component={StackNavigator} />
-
-          {/* Main application navigation */}
           <RootStack.Screen name="AppNavigator" component={AppNavigator} />
         </RootStack.Navigator>
       </NavigationContainer>
     </UserRoleProvider>
   );
 }
-
-export default App;

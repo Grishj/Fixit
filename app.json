@@ -4,9 +4,9 @@
     "slug": "Fixit",
     "version": "1.0.0",
     "splash": {
-      "image": "./images/HomeSolution.jpeg",
+      "image": "./scr/images/As.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fcfcfc"
     }
   }
 }

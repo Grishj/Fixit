@@ -14,7 +14,7 @@ const OnboardingScreen = () => {
       id: 1,
       title: 'Welcome to HomeSolution',
       description: 'Service at home like never experienced before.',
-      image: require('../images/HomeSolution.jpeg'),
+      image: require('../images/Sa.png'),
       backgroundColor: '#f2f2f2', // Tomato Red
     },
     {
