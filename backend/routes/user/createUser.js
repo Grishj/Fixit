@@ -2,7 +2,6 @@ const express = require("express");
 const client = require("../../config/database.js");
 const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
-
 const app = express();
 
 app.post("/", upload.single("profile_picture"), async (req, resp) => {

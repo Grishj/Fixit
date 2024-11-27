@@ -5,14 +5,12 @@ GET http://localhost:3000/
 ### 404 testing 
 GET http://localhost:3000/jpt
 
-
-
 ############# USER RELATED #####################
 ### Get users
 GET http://localhost:3000/users
 
 ### Get a user
-GET http://localhost:3000/user/69
+GET http://localhost:3000/user/72
 
 ### login
 POST http://localhost:3000/login
@@ -29,8 +27,8 @@ Content-Type: multipart/form-data
 name=suwi
 location_latitude=45
 location_longitude=45
-contact_email=sth1@ath.com
-contact_phone=9841123463
+email=sth1@ath.com
+phone=9841123463
 password=pw
 image=@C:/Users/USER/OneDrive/Pictures/EngT.jpg
 
@@ -43,8 +41,16 @@ GET http://localhost:3000/providers
 
 ### Get services
 GET http://localhost:3000/services
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjZAYXRoLmNvbSIsImlhdCI6MTczMTk0NzYxOCwiZXhwIjoxNzMxOTQ4MjE4fQ._MocK7usZeB_4nl4zhajlI7xUi69O7ezDFb2iUeiFRE
+Content-Type: application/json
 
+{
+  "type": "electronics"
+}
+
+### Get service type 
+GET http://localhost:3000/serviceType
+###
+GET http://192.168.10.64:3000/serviceType
 
 ################# CONTACT RELATED #########
 ### Call (get phone number)
@@ -62,8 +68,8 @@ Content-Type: application/json
 
 {
   "id": 69,
-  "spid": 3,
-  "messagetext": "Test message",
+  "spid": 4,
+  "messagetext": "Test message 46",
   "senderType": "provider"
   # senderType must be either "user" or "provider"
 }
@@ -74,5 +80,6 @@ Content-Type: application/json
 
 {
   "id": 69,
-  "spid": 3
+  "spid": 4
 }
+

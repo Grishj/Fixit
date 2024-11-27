@@ -1,3 +1,5 @@
+// Never Used
+
 const client = require("../config/database");
 const hashPassword = require("../helper/hashPassword");
 

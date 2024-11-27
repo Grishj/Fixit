@@ -29,6 +29,7 @@ const getService = require("./routes/service/getService.js");
 const getServices = require("./routes/service/getServices.js");
 const updateService = require("./routes/service/updateService.js");
 const deleteService = require("./routes/service/deleteService.js");
+const serviceType = require("./routes/service/serviceType.js");
 
 const booking = require("./routes/booking/booking.js");
 const bookingStatus = require("./routes/booking/updateStatus.js");
@@ -67,6 +68,7 @@ app.use("/service", getService);
 app.use("/services", getServices);
 app.use("/updateService", updateService);
 app.use("/deleteService", deleteService);
+app.use("/serviceType", serviceType);
 
 // Booking
 app.use("/booking", booking);
