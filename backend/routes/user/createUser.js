@@ -43,8 +43,6 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         !(duplicateEmail || duplicatePhone) &&
         name &&
         password &&
-        location_longitude &&
-        location_latitude &&
         email &&
         phone
     ) {
@@ -63,8 +61,6 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         resp.send("Name is required !!");
     } else if (!password) {
         resp.send("Password is required !!");
-    } else if (!(location_latitude && location_longitude)) {
-        resp.send("Location is required !!");
     } else if (!email) {
         resp.send("Email is required !!");
     } else if (!phone) {
