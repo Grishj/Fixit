@@ -10,22 +10,26 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from 'react-native-vector-icons';
+import backend from '../config/backend';
 
 function UserSignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); // Separate state
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     setError('');
-    if (!name || !email || !password || !confirmPassword) {
+
+    if (!name || !email || !phone || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
@@ -33,14 +37,37 @@ function UserSignUp() {
       setError('Passwords do not match');
       return;
     }
+
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const response = await fetch(`${backend.backendUrl}/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Success', 'Sign-up successful!', [
+          { text: 'OK', onPress: () => console.log('Navigate to Login Screen') },
+        ]);
+      } else {
+        setError(result.message || 'Failed to sign up. Please try again.');
+      }
+    } catch (error) {
+      console.error('Signup Error:', error);
+      setError('An error occurred. Please check your connection and try again.');
+    } finally {
       setIsLoading(false);
-      alert('Sign-up successful!');
-    }, 2000);
+    }
   };
-  
 
   return (
     <ImageBackground
@@ -72,6 +99,19 @@ function UserSignUp() {
                 keyboardType="email-address"
                 value={email}
                 onChangeText={setEmail}
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Phone Input */}
+            <View style={styles.inputContainer}>
+              <MaterialIcons name="phone" size={20} color="#666" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Phone"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
                 autoCapitalize="none"
               />
             </View>
@@ -150,7 +190,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   formContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background for form
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     padding: 20,
   },

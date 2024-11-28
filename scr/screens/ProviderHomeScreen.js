@@ -16,7 +16,7 @@ import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import * as IntentLauncher from "expo-intent-launcher";
 
-function HomePage ({ navigation })  {
+function ServiceProviderHomeScreen ({ navigation })  {
   const [location, setLocation] = useState("");
   const [isNotificationVisible, setNotificationVisible] = useState(false);
   const [isFavoriteVisible, setFavoriteVisible] = useState(false);
@@ -371,5 +371,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default ServiceProviderHomeScreen;
 

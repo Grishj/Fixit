@@ -9,7 +9,11 @@ const { getUserByEmail, getUserByPhone } = require("../../models/user");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { email, phone, password } = req.body;
+    const { identifier, password } = req.body; // Use 'identifier' instead of 'email' and 'phone'
+
+    if (!identifier) {
+        return res.status(400).send("Either email or phone is required");
+    }
 
     if (!password) {
         return res.status(400).send("Password is required");
@@ -18,12 +22,11 @@ router.post("/", async (req, res) => {
     let user;
 
     try {
-        if (email) {
-            user = await getUserByEmail(email);
-        } else if (phone) {
-            user = await getUserByPhone(phone);
+        // Determine if the identifier is an email or phone number
+        if (identifier.includes("@")) {
+            user = await getUserByEmail(identifier); // Assuming email contains "@"
         } else {
-            return res.status(400).send("Either email or phone is required");
+            user = await getUserByPhone(identifier);
         }
 
         if (!user || user.length === 0) {
@@ -32,20 +35,26 @@ router.post("/", async (req, res) => {
 
         user = user[0]; // Assuming getUserByEmail and getUserByPhone return an array
 
+        // Compare password
         const matchingPassword = await bcrypt.compare(password, user.password);
-
         if (!matchingPassword) {
             return res.status(401).send("Invalid password");
         }
 
         // Authentication successful
-        authUser = { user: user.email || user.phone };
+        const authUser = { user: user.email || user.phone };
         const token = jwt.sign(authUser, process.env.JWT_SECRET_KEY, {
             expiresIn: "10m",
         });
+
         res.status(200).json({
             message: "Login successful",
-            user: user,
+            user: {
+                id: user.id,
+                email: user.email,
+                phone: user.phone,
+                name: user.name,
+            },
             token: token,
         });
     } catch (error) {
@@ -55,15 +64,3 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
-
-/*
-app.post("/login", (req, res) => {
-    // Authenticate User
-    const user = { name: req.body.username };
-    const token = jwt.sign(user, process.env.TOKEN_SECRET, {
-        expiresIn: "10m",
-    });
-    res.json({ token: token });
-});
-
-*/

@@ -12,29 +12,56 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from 'react-native-vector-icons';
+import { useNavigation } from '@react-navigation/native'; // Import navigation hook
+import backend from '../config/backend'; // Backend configuration
 
-function UserSignIn({  }) {
-  const [email, setEmail] = useState('');
+function UserSignIn() {
+  const [identifier, setIdentifier] = useState(''); // For email or phone
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigation = useNavigation(); // Initialize navigation
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     setError('');
-    if (!email || !password) {
+  
+    if (!identifier || !password) {
       setError('Please fill in all fields');
       return;
     }
+  
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+  
+    try {
+      const response = await fetch(`${backend.backendUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          identifier, // Use 'identifier' as expected by the backend
+          password,
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert('Sign-in successful!');
+        console.log(result); // Debugging
+        navigation.navigate('HomeScreen'); // Navigate to Home Screen
+      } else {
+        setError(result.message || 'Sign-in failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Sign-in Error:', error);
+      setError('An error occurred. Please check your connection and try again.');
+    } finally {
       setIsLoading(false);
-      alert('Sign-in successful!');
-    }, 2000);
+    }
   };
-
- 
+  
 
   return (
     <ImageBackground
@@ -45,16 +72,16 @@ function UserSignIn({  }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.formContainer}>
             <Text style={styles.title}>User Sign In</Text>
-            
-            {/* Email Input */}
+
+            {/* Identifier (Email or Phone) Input */}
             <View style={styles.inputContainer}>
-              <MaterialIcons name="email" size={20} color="#666" style={styles.icon} />
+              <MaterialIcons name="person" size={20} color="#666" style={styles.icon} />
               <TextInput
                 style={styles.input}
-                placeholder="Email"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
+                placeholder="Email or Phone"
+                keyboardType="default"
+                value={identifier}
+                onChangeText={setIdentifier}
                 autoCapitalize="none"
               />
             </View>
@@ -110,7 +137,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   formContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background for form
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     padding: 20,
   },
@@ -160,5 +187,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
 
 export default UserSignIn;

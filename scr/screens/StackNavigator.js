@@ -5,6 +5,9 @@ import SignInScreen from "./SignInScreen";
 import SignUpScreen from "./SignUpScreen";
 import SignUpChoiceScreen from "./SignUpChoiceScreen";
 import DrawerContent from "./DrawerContent";
+import HomePage from "./HomeScreen.js";
+import UserHomePage from "./UserHomeScreen.js";
+import ServiceProviderHomeScreen from './ProviderHomeScreen.js'
 import ServiceDetails from "./ServiceDetailScreen";
 import ForgotPasswordScreen from "./ForgotPasswordScreen";
 import UserSignIn from "./UserSignIn";
@@ -20,7 +23,7 @@ import ChoiceScreen from "./ChoiceScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="ChoiceScreen">
+    <Stack.Navigator initialRouteName="ServiceProviderBottomTabNavigator">
       <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}
@@ -31,6 +34,9 @@ function StackNavigator() {
         component={ChoiceScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="UserHomePage" component={UserHomePage} />
+      <Stack.Screen name="ServiceProviderHomeScreen" component={ServiceProviderHomeScreen} />
+
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
@@ -46,12 +52,6 @@ function StackNavigator() {
       <Stack.Screen
         name="ForgotPasswordScreen"
         component={ForgotPasswordScreen}
-        options={{ headerShown: false }}
-      />
-     
-      <Stack.Screen
-        name="SignUpChoiceScreen"
-        component={SignUpChoiceScreen}
         options={{ headerShown: false }}
       />
 
@@ -86,9 +86,9 @@ function StackNavigator() {
         component={CategoriesScreen}
         options={{ title: "Our Services" }}
       />
-       <Stack.Screen
-        name="Home"
-        component={DrawerContent}
+      <Stack.Screen
+        name="HomePage"
+        component={HomePage}
         options={{ headerShown: false }}
       />
       <Stack.Screen

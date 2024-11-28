@@ -16,6 +16,7 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
     const profile_picture = req.file;
     hashedPassword = await hashPassword(password);
 
+    console.log(req.body)
     const query = `
     INSERT INTO users (name, location_latitude, location_longitude, email, phone, password, profile_picture)
     VALUES ($1, $2, $3, $4, $5, $6, $7)

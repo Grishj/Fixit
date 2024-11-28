@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, Button, Image, TouchableOpacity } from 'react-native';
 
-const BookingScreen = () => {
+function BookingScreen ()  {
   const [bookings, setBookings] = useState([]);
   const [page, setPage] = useState(1);
   const [isRefreshing, setIsRefreshing] = useState(false);

@@ -17,20 +17,27 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "email": "sth66@ath.com",
-  "password" : "pw"
+  "identifier": "email_or_phone",
+  "password": "password"
 }
+
+
 ### Signup
 POST http://localhost:3000/signup
-Content-Type: multipart/form-data
+Content-Type: application/json
 
-name=suwi
-location_latitude=45
-location_longitude=45
-email=sth1@ath.com
-phone=9841123463
-password=pw
-image=@C:/Users/USER/OneDrive/Pictures/EngT.jpg
+{
+  "name": "suwi",
+  "location_latitude": 45,
+  "location_longitude": 45,
+  "email": "sth2@ath.com",
+  "phone": 9841123464,
+  "password": "pw"
+}
+
+
+
+
 
 ############ SERVICE PROVIDERS RELATED ##
 
