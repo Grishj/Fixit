@@ -8,16 +8,14 @@ import * as SplashScreen from 'expo-splash-screen';
 
 const RootStack = createStackNavigator();
 
-SplashScreen.preventAutoHideAsync(); // Keep the splash screen visible
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   useEffect(() => {
     const prepareApp = async () => {
-      // Perform necessary initialization tasks here
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading
-      SplashScreen.hideAsync(); // Hide the splash screen
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      SplashScreen.hideAsync();
     };
-
     prepareApp();
   }, []);
 

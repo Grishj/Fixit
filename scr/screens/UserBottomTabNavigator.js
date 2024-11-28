@@ -31,10 +31,10 @@ function UserBottomTabNavigator  ()  {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={UserHomeScreen} />
-      <Tab.Screen name="Categories" component={CategoriesScreen} />
-      <Tab.Screen name="Booking" component={BookingScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Home" component={UserHomeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Categories" component={CategoriesScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Booking" component={BookingScreen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
