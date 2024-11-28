@@ -32,7 +32,8 @@ const deleteService = require("./routes/service/deleteService.js");
 const serviceType = require("./routes/service/serviceType.js");
 
 const booking = require("./routes/booking/booking.js");
-const bookingStatus = require("./routes/booking/updateStatus.js");
+const getBooking = require("./routes/booking/getBooking.js");
+const updateStatus = require("./routes/booking/updateStatus.js");
 
 const message = require("./routes/contact/message.js");
 const call = require("./routes/contact/call.js");
@@ -43,7 +44,7 @@ const notfound = require("./routes/404.js");
 client.connect();
 
 app.get("/", (req, resp) => {
-    resp.send("Hello from backend !!");
+    resp.status(200).send("Hello from backend !!");
 });
 
 // User API Routes
@@ -72,7 +73,8 @@ app.use("/serviceType", serviceType);
 
 // Booking
 app.use("/booking", booking);
-app.use("/bookingStatus", bookingStatus);
+app.use("/updateStatus", updateStatus);
+app.use("/getBooking", getBooking);
 
 // Contact
 app.use("/call", call); //send id or spid to get phone number

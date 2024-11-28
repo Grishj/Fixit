@@ -10,15 +10,15 @@ GET http://localhost:3000/jpt
 GET http://localhost:3000/users
 
 ### Get a user
-GET http://localhost:3000/user/72
+GET http://localhost:3000/user/68
 
 ### login
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "identifier": "email_or_phone",
-  "password": "password"
+  "identifier": "9800000068",
+  "password": "pw"
 }
 
 
@@ -76,7 +76,7 @@ Content-Type: application/json
 {
   "id": 69,
   "spid": 4,
-  "messagetext": "Test message 46",
+  "messagetext": "Hi dear customer...",
   "senderType": "provider"
   # senderType must be either "user" or "provider"
 }
@@ -90,3 +90,40 @@ Content-Type: application/json
   "spid": 4
 }
 
+############### BOOKING RELATED #######
+### Book a service // Send request with JWT token to book a service.
+POST http://localhost:3000/booking
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Content-Type: application/json
+
+{
+  "id": 68,
+  #id = user id 
+  "sid": 4,
+  #sid = service id
+  "status": "pending"
+}
+
+### Get booking status
+GET http://localhost:3000/getBooking
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Content-Type: application/json
+
+{
+  "id": 68,
+  "sid": 4
+}
+
+### Update booking status
+PUT http://localhost:3000/updateStatus
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Content-Type: application/json
+
+{
+  "id": 68,
+  "sid": 4,
+  "status": "approved"
+}
+
+
+###################

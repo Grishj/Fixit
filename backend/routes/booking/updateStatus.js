@@ -1,5 +1,6 @@
 const express = require("express");
 const client = require("../../config/database.js");
+const auth = require("../../auth/auth.js");
 const app = express();
 app.use(express.json());
 
