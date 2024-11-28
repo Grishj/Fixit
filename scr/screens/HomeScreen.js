@@ -197,7 +197,7 @@ function HomePage ({ navigation })  {
                 <TouchableOpacity
                   key={index}
                   style={styles.serviceItem}
-                  onPress={() => handleServiceClick(service)}
+                  onPress={() => navigation.navigate("CategoriesScreen", { service: category })}
                 >
                   <Image source={service.image} style={styles.serviceImage} />
                   <Text style={styles.serviceText}>{service.name}</Text>
@@ -372,4 +372,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomePage;
-
