@@ -69,7 +69,7 @@ app.use("/service", getService);
 app.use("/services", getServices);
 app.use("/updateService", updateService);
 app.use("/deleteService", deleteService);
-app.use("/serviceType", serviceType);
+app.use("/serviceCategories", serviceType);
 
 // Booking
 app.use("/booking", booking);

@@ -4,8 +4,8 @@ const auth = require("../../auth/auth.js");
 const app = express();
 app.use(express.json());
 
-app.get("/", async (req, resp) => {
-    const { id, sid, status } = req.body;
+app.get("/", auth, async (req, resp) => {
+    const { id, sid } = req.body;
 
     const query = `
         SELECT * FROM bookings

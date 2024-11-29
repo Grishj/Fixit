@@ -73,7 +73,7 @@ const updateService = async (
     const query = `
         UPDATE services
         SET ${fields.join(", ")}
-        WHERE id = $${index}
+        WHERE sid = $${index}
         RETURNING *;
     `;
 

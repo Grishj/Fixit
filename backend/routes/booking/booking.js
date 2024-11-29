@@ -31,6 +31,13 @@ app.post("/", auth, async (req, resp) => {
                 )
             ).rowCount > 0;
 
+        const spid = await client.query(
+            `SELECT spid FROM services WHERE sid = $1`,
+            [sid]
+        );
+
+        console.log(spid.rows);
+
         if (!userExist) {
             return resp.status(404).send("User not available !!");
         }

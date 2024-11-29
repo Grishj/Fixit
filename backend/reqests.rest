@@ -35,10 +35,6 @@ Content-Type: application/json
   "password": "pw"
 }
 
-
-
-
-
 ############ SERVICE PROVIDERS RELATED ##
 
 ### Get Service Providers
@@ -46,18 +42,74 @@ GET http://localhost:3000/providers
 
 ################### SERVICE RELATED ############
 
+### Create service
+POST http://localhost:3000/createService
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="spid"
+
+4
+--boundary
+Content-Disposition: form-data; name="name"
+
+Vivek Electronics
+--boundary
+Content-Disposition: form-data; name="description"
+
+This is one of the best electronics service available in Pokhara.
+--boundary
+Content-Disposition: form-data; name="type"
+
+Electronics
+--boundary
+Content-Disposition: form-data; name="mincharge"
+
+150
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="FB_IMG_15586343730679352.jpg"
+Content-Type: image/jpeg
+
+< ./C:/Users/USER/OneDrive/Pictures/photos-2191/Photos/FB_IMG_15586343730679352.jpg
+--boundary--
+
+
 ### Get services
 GET http://localhost:3000/services
 Content-Type: application/json
 
 {
-  "type": "electronics"
+  #"type": "Electronics"
+  # pass type to gwt services of a particular type else you will get all the services.
 }
+### Get a service
+GET http://localhost:3000/service/3   # Pass service ID
 
-### Get service type 
-GET http://localhost:3000/serviceType
-###
-GET http://192.168.10.64:3000/serviceType
+### Get service types or categories
+GET http://localhost:3000/serviceCategories
+
+### Delete a service
+DELETE http://localhost:3000/deleteService/2 # pass sid (service id)
+
+### Update service
+PUT http://localhost:3000/updateService
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="sid"
+
+4
+--boundary
+Content-Disposition: form-data; name="name"
+
+Vivek Electronics Updated
+--boundary--
+
+
+
+
+
+
 
 ################# CONTACT RELATED #########
 ### Call (get phone number)
@@ -93,7 +145,7 @@ Content-Type: application/json
 ############### BOOKING RELATED #######
 ### Book a service // Send request with JWT token to book a service.
 POST http://localhost:3000/booking
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2NDAzNCwiZXhwIjoxNzMyODY0NjM0fQ.FHXXQYbgEQAltnmfJvZ90gUioqSEzxKGSuIteSQhiOI
 Content-Type: application/json
 
 {
@@ -104,7 +156,7 @@ Content-Type: application/json
   "status": "pending"
 }
 
-### Get booking status
+### Get booking
 GET http://localhost:3000/getBooking
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
 Content-Type: application/json
@@ -116,7 +168,7 @@ Content-Type: application/json
 
 ### Update booking status
 PUT http://localhost:3000/updateStatus
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2NDAzNCwiZXhwIjoxNzMyODY0NjM0fQ.FHXXQYbgEQAltnmfJvZ90gUioqSEzxKGSuIteSQhiOI
 Content-Type: application/json
 
 {
@@ -124,6 +176,3 @@ Content-Type: application/json
   "sid": 4,
   "status": "approved"
 }
-
-
-###################
