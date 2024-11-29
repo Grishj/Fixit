@@ -36,9 +36,13 @@ Content-Type: application/json
 }
 
 ### Update User
-PUT http://localhost:3000/updateUser/68
+PUT http://localhost:3000/updateUser/
 Content-Type: multipart/form-data; boundary=boundary
 
+--boundary
+Content-Disposition: form-data; name="id"
+
+68
 --boundary
 Content-Disposition: form-data; name="name"
 
