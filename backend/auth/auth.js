@@ -3,8 +3,6 @@ const dotenv = require("dotenv");
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 const jwt = require("jsonwebtoken");
 
-// console.log(process.env.JWT_SECRET_KEY);
-
 async function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];

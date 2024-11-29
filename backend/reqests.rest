@@ -142,10 +142,13 @@ Content-Type: application/json
   "spid": 4
 }
 
+
+
+
 ############### BOOKING RELATED #######
 ### Book a service // Send request with JWT token to book a service.
 POST http://localhost:3000/booking
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2NDAzNCwiZXhwIjoxNzMyODY0NjM0fQ.FHXXQYbgEQAltnmfJvZ90gUioqSEzxKGSuIteSQhiOI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2ODQ1MCwiZXhwIjoxNzMyOTU0ODUwfQ.HC0WofOVno1yyQWL5n9lQ0L7f5dtvX4H1mAWaB1GBeM
 Content-Type: application/json
 
 {
@@ -158,21 +161,20 @@ Content-Type: application/json
 
 ### Get booking
 GET http://localhost:3000/getBooking
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjgxMzIyNSwiZXhwIjoxNzMyODEzODI1fQ.yIOnuipXAyLKhC7bffEwfvPfotivbE2eNjV3yEy5UnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2ODU5OCwiZXhwIjoxNzMyOTU0OTk4fQ.Kk1eNZ_jk5Hbb8ACZzeyTt8qZQX4r6foJsG6i9GVqHA
 Content-Type: application/json
 
 {
-  "id": 68,
-  "sid": 4
+  "id": 68
+  #"sid": 4
 }
 
 ### Update booking status
 PUT http://localhost:3000/updateStatus
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2NDAzNCwiZXhwIjoxNzMyODY0NjM0fQ.FHXXQYbgEQAltnmfJvZ90gUioqSEzxKGSuIteSQhiOI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2ODU5OCwiZXhwIjoxNzMyOTU0OTk4fQ.Kk1eNZ_jk5Hbb8ACZzeyTt8qZQX4r6foJsG6i9GVqHA
 Content-Type: application/json
 
 {
-  "id": 68,
-  "sid": 4,
+  "bid": 1,
   "status": "approved"
 }

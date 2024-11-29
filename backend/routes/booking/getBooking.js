@@ -5,12 +5,11 @@ const app = express();
 app.use(express.json());
 
 app.get("/", auth, async (req, resp) => {
-    const { id, sid } = req.body;
+    const { id } = req.body;
 
-    const query = `
-        SELECT * FROM bookings
-    WHERE id = $1 AND sid = $2;`;
-    const values = [id, sid];
+    const query = `SELECT * FROM bookings
+    WHERE id = $1;`;
+    const values = [id];
 
     try {
         const result = await client.query(query, values);
