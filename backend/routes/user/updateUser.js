@@ -39,11 +39,11 @@ app.put("/:id", upload.single("profile_picture"), async (req, resp) => {
         values.push(location_longitude);
     }
     if (email) {
-        fields.push(`contact_email = $${index++}`);
+        fields.push(`email = $${index++}`);
         values.push(email);
     }
     if (phone) {
-        fields.push(`contact_phone = $${index++}`);
+        fields.push(`phone = $${index++}`);
         values.push(phone);
     }
     if (password) {

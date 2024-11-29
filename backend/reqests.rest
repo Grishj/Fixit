@@ -17,7 +17,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "identifier": "9800000068",
+  "identifier": "9800000009",
   "password": "pw"
 }
 
@@ -34,6 +34,46 @@ Content-Type: application/json
   "phone": 9841123464,
   "password": "pw"
 }
+
+### Update User
+PUT http://localhost:3000/updateUser/68
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+Nabin Sah
+--boundary
+Content-Disposition: form-data; name="location_latitude"
+
+27.7172
+--boundary
+Content-Disposition: form-data; name="location_longitude"
+
+85.3240
+--boundary
+Content-Disposition: form-data; name="email"
+
+nabindada@homesolution.com
+--boundary
+Content-Disposition: form-data; name="phone"
+
+9800000068
+--boundary
+Content-Disposition: form-data; name="password"
+
+pw
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+< ./C:/Users/USER/OneDrive/Pictures/photos-2191/Photos/FB_IMG_15586343730679352.jpg
+--boundary--
+
+
+
+
+
 
 ############ SERVICE PROVIDERS RELATED ##
 
@@ -152,7 +192,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAY
 Content-Type: application/json
 
 {
-  "id": 68,
+  "id": 32,
   #id = user id 
   "sid": 4,
   #sid = service id
@@ -165,7 +205,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAY
 Content-Type: application/json
 
 {
-  "id": 68
+  "id": 32
   #"sid": 4
 }
 
