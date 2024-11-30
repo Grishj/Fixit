@@ -9,6 +9,7 @@ PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 
 app.use(express.json());
+const ip = require("./helper/ip.js");
 
 const login = require("./routes/user/login.js");
 const getUsers = require("./routes/user/getUsers.js");
@@ -46,6 +47,8 @@ client.connect();
 app.get("/", (req, resp) => {
     resp.status(200).send("Hello from backend !!");
 });
+
+app.use("/ip", ip);
 
 // User API Routes
 app.use("/login", login); //post
