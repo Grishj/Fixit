@@ -9,6 +9,7 @@ PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 
 app.use(express.json());
+const ip = require("./helper/ip.js");
 
 const login = require("./routes/user/login.js");
 const getUsers = require("./routes/user/getUsers.js");
@@ -32,7 +33,8 @@ const deleteService = require("./routes/service/deleteService.js");
 const serviceType = require("./routes/service/serviceType.js");
 
 const booking = require("./routes/booking/booking.js");
-const bookingStatus = require("./routes/booking/updateStatus.js");
+const getBooking = require("./routes/booking/getBooking.js");
+const updateStatus = require("./routes/booking/updateStatus.js");
 
 const message = require("./routes/contact/message.js");
 const call = require("./routes/contact/call.js");
@@ -43,8 +45,10 @@ const notfound = require("./routes/404.js");
 client.connect();
 
 app.get("/", (req, resp) => {
-    resp.send("Hello from backend !!");
+    resp.status(200).send("Hello from backend !!");
 });
+
+app.use("/ip", ip);
 
 // User API Routes
 app.use("/login", login); //post
@@ -68,11 +72,12 @@ app.use("/service", getService);
 app.use("/services", getServices);
 app.use("/updateService", updateService);
 app.use("/deleteService", deleteService);
-app.use("/serviceType", serviceType);
+app.use("/serviceCategories", serviceType);
 
 // Booking
 app.use("/booking", booking);
-app.use("/bookingStatus", bookingStatus);
+app.use("/updateStatus", updateStatus);
+app.use("/getBooking", getBooking);
 
 // Contact
 app.use("/call", call); //send id or spid to get phone number

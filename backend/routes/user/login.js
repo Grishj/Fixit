@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
         // Authentication successful
         const authUser = { user: user.email || user.phone };
         const token = jwt.sign(authUser, process.env.JWT_SECRET_KEY, {
-            expiresIn: "10m",
+            expiresIn: "1d",
         });
 
         res.status(200).json({

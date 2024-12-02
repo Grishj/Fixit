@@ -5,9 +5,9 @@ const hashPassword = require("../../helper/hashPassword.js");
 
 const app = express();
 
-app.put("/:id", upload.single("profile_picture"), async (req, resp) => {
-    const { id } = req.params;
+app.put("/", upload.single("profile_picture"), async (req, resp) => {
     const {
+        id,
         name,
         location_latitude,
         location_longitude,
@@ -16,7 +16,7 @@ app.put("/:id", upload.single("profile_picture"), async (req, resp) => {
         password,
     } = req.body;
     const { profile_picture } = req.file;
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = password ? await hashPassword(password) : null;
 
     if (!id) {
         return resp.status(400).send("User ID is required");
@@ -39,14 +39,14 @@ app.put("/:id", upload.single("profile_picture"), async (req, resp) => {
         values.push(location_longitude);
     }
     if (email) {
-        fields.push(`contact_email = $${index++}`);
+        fields.push(`email = $${index++}`);
         values.push(email);
     }
     if (phone) {
-        fields.push(`contact_phone = $${index++}`);
+        fields.push(`phone = $${index++}`);
         values.push(phone);
     }
-    if (password) {
+    if (hashedPassword) {
         fields.push(`password = $${index++}`);
         values.push(hashedPassword);
     }
