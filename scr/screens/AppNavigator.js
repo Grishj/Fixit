@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
-import UserBottomTabNavigator from './UserBottomTabNavigator';
-import ServiceProviderBottomTabNavigator from './ServiceProviderBottomTabNavigator';
-import { UserRoleContext } from './UserRoleContext';
+import React, { useContext } from "react";
+import UserBottomTabNavigator from "./UserBottomTabNavigator";
+import ServiceProviderBottomTabNavigator from "./ServiceProviderBottomTabNavigator";
+import { UserRoleContext } from "./UserRoleContext";
 
-function AppNavigator  ()  {
+function AppNavigator() {
   const { userRole } = useContext(UserRoleContext);
 
-  return userRole === 'user' ? <UserBottomTabNavigator /> : <ServiceProviderBottomTabNavigator />;
-};
+  return userRole === "user" ? (
+    <UserBottomTabNavigator />
+  ) : (
+    <ServiceProviderBottomTabNavigator />
+  );
+}
 
 export default AppNavigator;

@@ -16,7 +16,7 @@ import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import * as IntentLauncher from "expo-intent-launcher";
 
-function ServiceProviderHomeScreen ({ navigation })  {
+function ServiceProviderHomeScreen({ navigation }) {
   const [location, setLocation] = useState("");
   const [isNotificationVisible, setNotificationVisible] = useState(false);
   const [isFavoriteVisible, setFavoriteVisible] = useState(false);
@@ -84,9 +84,13 @@ function ServiceProviderHomeScreen ({ navigation })  {
 
     // Navigate to the exact match if found
     if (exactMatchPopularService) {
-      navigation.navigate("ServiceDetailScreen", { service: exactMatchPopularService });
+      navigation.navigate("ServiceDetailScreen", {
+        service: exactMatchPopularService,
+      });
     } else if (exactMatchService) {
-      navigation.navigate("ServiceDetailScreen", { service: exactMatchService });
+      navigation.navigate("ServiceDetailScreen", {
+        service: exactMatchService,
+      });
     } else {
       alert("Service not found. Please refine your search.");
     }
@@ -140,7 +144,12 @@ function ServiceProviderHomeScreen ({ navigation })  {
                   onPress={() => setFavoriteVisible(true)}
                   accessibilityLabel="Open Favorites"
                 >
-                  <Ionicons name="heart" size={24} color="#000" style={{ marginRight: 5 }} />
+                  <Ionicons
+                    name="heart"
+                    size={24}
+                    color="#000"
+                    style={{ marginRight: 5 }}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -153,7 +162,10 @@ function ServiceProviderHomeScreen ({ navigation })  {
                 value={location}
                 onChangeText={setLocation}
               />
-              <TouchableOpacity onPress={openGoogleMaps} style={styles.searchButton}>
+              <TouchableOpacity
+                onPress={openGoogleMaps}
+                style={styles.searchButton}
+              >
                 <Ionicons name="location-sharp" size={20} color="white" />
               </TouchableOpacity>
             </View>
@@ -166,7 +178,10 @@ function ServiceProviderHomeScreen ({ navigation })  {
                 value={searchQuery}
                 onChangeText={setSearchQuery}
               />
-              <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+              <TouchableOpacity
+                onPress={handleSearch}
+                style={styles.searchButton}
+              >
                 <FontAwesome5 name="search" size={20} color="white" />
               </TouchableOpacity>
             </View>
@@ -175,15 +190,32 @@ function ServiceProviderHomeScreen ({ navigation })  {
           {/* Services Section View */}
           <View style={styles.servicesContainer}>
             <Text style={styles.sectionTitle}>Popular Services</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.categoriesContainer}
+            >
               {filteredPopularServices.map((category, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.categoryItem}
-                  onPress={() => navigation.navigate("ServiceDetailScreen", { service: category })}
+                  onPress={() =>
+                    navigation.navigate("ServiceDetailScreen", {
+                      service: category,
+                    })
+                  }
                 >
-                  <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
-                    <FontAwesome5 name={category.icon} size={24} color="white" />
+                  <View
+                    style={[
+                      styles.categoryIcon,
+                      { backgroundColor: category.color },
+                    ]}
+                  >
+                    <FontAwesome5
+                      name={category.icon}
+                      size={24}
+                      color="white"
+                    />
                   </View>
                   <Text style={styles.categoryText}>{category.name}</Text>
                 </TouchableOpacity>
@@ -231,7 +263,10 @@ function ServiceProviderHomeScreen ({ navigation })  {
             <View style={styles.modalView}>
               <Text style={styles.modalTitle}>Notifications</Text>
               <Text>No new notifications at the moment.</Text>
-              <Button title="Close" onPress={() => setNotificationVisible(false)} />
+              <Button
+                title="Close"
+                onPress={() => setNotificationVisible(false)}
+              />
             </View>
           </Modal>
 
@@ -248,12 +283,11 @@ function ServiceProviderHomeScreen ({ navigation })  {
               <Button title="Close" onPress={() => setFavoriteVisible(false)} />
             </View>
           </Modal>
-
         </ScrollView>
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const popularServices = [
   { name: "AC Repair", icon: "tools", color: "#FF6584" },
@@ -372,4 +406,3 @@ const styles = StyleSheet.create({
 });
 
 export default ServiceProviderHomeScreen;
-
