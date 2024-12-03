@@ -2,8 +2,12 @@
 ### Setup Testing
 GET http://localhost:3000/
 
+### Get IP
+GET http://localhost:3000/ip
+
 ### 404 testing 
 GET http://localhost:3000/jpt
+
 
 ############# USER RELATED #####################
 ### Get users
@@ -81,8 +85,79 @@ Content-Type: image/jpeg
 
 ############ SERVICE PROVIDERS RELATED ##
 
+### Create Provider
+POST http://localhost:3000/psignup
+Content-Type: application/json
+
+{
+   "name": "Suwi Gtm",
+    "email": "sth1@ath.com",
+    "phone": "9898989899",
+    "password": "pw",
+    "address": "Lamachaur",
+    "city": "Pokhara"
+}
+
+### Provider Login
+POST http://localhost:3000/plogin
+Content-Type: application/json
+
+{
+  "phone": "9898989898",
+  "password": "pw"
+}
 ### Get Service Providers
 GET http://localhost:3000/providers
+
+### Get a Service Provider
+GET http://localhost:3000/provider/7
+
+### Delete a Service Provider
+DELETE http://localhost:3000/deleteProvider/2
+
+### Update Provider 
+PUT http://localhost:3000/updateProvider/3
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+Nabin Sah
+--boundary
+Content-Disposition: form-data; name="email"
+
+nabindada@homesolution.com
+--boundary
+Content-Disposition: form-data; name="password"
+
+pw
+--boundary
+Content-Disposition: form-data; name="phone"
+
+9800000068
+--boundary
+Content-Disposition: form-data; name="address"
+
+New Baneshwor
+--boundary
+Content-Disposition: form-data; name="city"
+
+Kathmandu
+--boundary
+Content-Disposition: form-data; name="location_latitude"
+
+27.7172
+--boundary
+Content-Disposition: form-data; name="location_longitude"
+
+85.3240
+--boundary
+Content-Disposition: form-data; name="profile_picture"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+< ./C:/Users/USER/OneDrive/Pictures/photos-2191/Photos/FB_IMG_15586343730679352.jpg
+--boundary--
+
 
 ################### SERVICE RELATED ############
 
@@ -148,11 +223,6 @@ Content-Disposition: form-data; name="name"
 
 Vivek Electronics Updated
 --boundary--
-
-
-
-
-
 
 
 ################# CONTACT RELATED #########

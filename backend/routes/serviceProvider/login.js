@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {
     getProviderByEmail,
     getProviderByPhone,
@@ -32,8 +33,17 @@ router.post("/", async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).send("Incorrect password");
         }
+        // Authentication successful
+        const authUser = { user: provider.email || provider.phone };
+        const token = jwt.sign(authUser, process.env.JWT_SECRET_KEY, {
+            expiresIn: "1d",
+        });
 
-        res.status(200).send(provider);
+        res.status(200).json({
+            message: "Login successful",
+            provider,
+            token,
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

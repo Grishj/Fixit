@@ -14,7 +14,7 @@ const createProvider = async (
 ) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const query = `
-        INSERT INTO providers (name, email, password, phone, address, city, location_latitude, location_longitude, profile_picture)
+        INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude, profile_picture)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING *;`;
     const values = [
@@ -121,7 +121,7 @@ const updateProvider = async (
 };
 
 const getProviderByEmail = async (email) => {
-    const query = `SELECT * FROM providers WHERE email = $1`;
+    const query = `SELECT * FROM serviceproviders WHERE email = $1`;
     try {
         const result = await client.query(query, [email]);
         return result.rows;
@@ -132,7 +132,7 @@ const getProviderByEmail = async (email) => {
 };
 
 const getProviderByPhone = async (phone) => {
-    const query = `SELECT * FROM providers WHERE phone = $1`;
+    const query = `SELECT * FROM serviceproviders WHERE phone = $1`;
     try {
         const result = await client.query(query, [phone]);
         return result.rows;
@@ -158,7 +158,7 @@ const deleteProviderById = async (id) => {
         throw new Error("Provider ID is required");
     }
 
-    const query = `DELETE FROM providers WHERE id = $1 RETURNING *;`;
+    const query = `DELETE FROM serviceproviders WHERE id = $1 RETURNING *;`;
     try {
         const result = await client.query(query, [id]);
         if (result.rowCount === 0) {

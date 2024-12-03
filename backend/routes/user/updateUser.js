@@ -2,10 +2,10 @@ const express = require("express");
 const client = require("../../config/database.js");
 const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
-
+const auth = require("../../auth/auth.js");
 const app = express();
 
-app.put("/", upload.single("profile_picture"), async (req, resp) => {
+app.put("/", upload.single("profile_picture"), auth, async (req, resp) => {
     const {
         id,
         name,

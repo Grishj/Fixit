@@ -1,26 +1,24 @@
 const express = require("express");
 const client = require("../../config/database.js");
-const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
 
 const app = express();
 
-app.post("/", upload.single("profile_picture"), async (req, resp) => {
+app.post("/", async (req, resp) => {
     const {
         name,
         email,
-        password,
         phone,
+        password,
         address,
         city,
         location_latitude,
         location_longitude,
     } = req.body;
-    const profile_picture = req.file;
     const passwordhash = await hashPassword(password);
     const query = `
-    INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude, profile_picture)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *;
 `;
     const values = [
@@ -32,7 +30,6 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         city,
         location_latitude,
         location_longitude,
-        profile_picture,
     ];
 
     const dupliPhone = await client.query(
@@ -47,10 +44,7 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         !(duplicateEmail || duplicatePhone) &&
         name &&
         passwordhash &&
-        location_longitude &&
-        location_latitude &&
-        email &&
-        phone
+        (email || phone)
     ) {
         client.query(query, values, (err, result) => {
             if (err) {
@@ -67,8 +61,6 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         resp.send("Name is required !!");
     } else if (!passwordhash) {
         resp.send("Password is required !!");
-    } else if (!(location_latitude && location_longitude)) {
-        resp.send("Location is required !!");
     } else if (!email) {
         resp.send("Email is required !!");
     } else if (!phone) {
