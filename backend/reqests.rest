@@ -6,7 +6,7 @@ GET http://localhost:3000/
 GET http://localhost:3000/ip
 
 ### 404 testing 
-GET http://localhost:3000/jpt
+GET http://localhost:3000/pagenotexist
 
 
 ############# USER RELATED #####################
@@ -21,7 +21,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "identifier": "9800000009",
+  "identifier": "9800000068",
   "password": "pw"
 }
 
