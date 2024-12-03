@@ -1,5 +1,6 @@
 const express = require("express");
 const client = require("../../config/database.js");
+const jwt = require("jsonwebtoken");
 const hashPassword = require("../../helper/hashPassword.js");
 
 const app = express();
@@ -54,7 +55,18 @@ app.post("/", async (req, resp) => {
                     err
                 );
             } else {
-                resp.status(201).json(result.rows[0]);
+                const provider = result.rows[0];
+                // Authentication successful
+                const authUser = { user: provider.email || provider.phone };
+                const token = jwt.sign(authUser, process.env.JWT_SECRET_KEY, {
+                    expiresIn: "1d",
+                });
+
+                resp.status(200).json({
+                    message: "Signup successful",
+                    provider,
+                    token,
+                });
             }
         });
     } else if (!name) {
