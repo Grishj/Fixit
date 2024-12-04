@@ -5,62 +5,63 @@ import ProviderHomeScreen from "./ProviderHomeScreen";
 import TaskListScreen from "./TaskListScreen";
 import StatsScreen from "./StatsScreen";
 import ProfileScreen from "./ProfileScreen";
-import HomePage from "./HomePage"; // Import HomePage component
+// import HomePage from "./HomeScreen"; // Import HomePage component
 
 const Tab = createBottomTabNavigator();
 
 function ServiceProviderBottomTabNavigator() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+    return (
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName;
 
-          if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Tasks") {
-            iconName = focused ? "list" : "list-outline";
-          } else if (route.name === "Stats") {
-            iconName = focused ? "stats-chart" : "stats-chart-outline";
-          } else if (route.name === "Profile") {
-            iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "ServiceHome") {
-            iconName = focused ? "apps" : "apps-outline";
-          }
+                    if (route.name === "Home") {
+                        iconName = focused ? "home" : "home-outline";
+                    } else if (route.name === "Tasks") {
+                        iconName = focused ? "list" : "list-outline";
+                    } else if (route.name === "Stats") {
+                        iconName = focused
+                            ? "stats-chart"
+                            : "stats-chart-outline";
+                    } else if (route.name === "Profile") {
+                        iconName = focused ? "person" : "person-outline";
+                    } else if (route.name === "ServiceHome") {
+                        iconName = focused ? "apps" : "apps-outline";
+                    }
 
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: "blue",
-        tabBarInactiveTintColor: "gray",
-      })}
-    >
-      <Tab.Screen
-        name="ServiceHome"
-        component={HomePage}
-        options={{ headerShown: false, title: "HomePage" }}
-      />
-      <Tab.Screen
-        name="Home"
-        component={ProviderHomeScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Tasks"
-        component={TaskListScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Stats"
-        component={StatsScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ headerShown: false }}
-      />
-    </Tab.Navigator>
-  );
+                    return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: "blue",
+                tabBarInactiveTintColor: "gray",
+            })}>
+            {/* <Tab.Screen
+                name="ServiceHome"
+                component={HomePage}
+                options={{ headerShown: false, title: "HomePage" }}
+            />  */}
+            <Tab.Screen
+                name="Home"
+                component={ProviderHomeScreen}
+                options={{ headerShown: false }}
+            />
+            <Tab.Screen
+                name="Tasks"
+                component={TaskListScreen}
+                options={{ headerShown: false }}
+            />
+            <Tab.Screen
+                name="Stats"
+                component={StatsScreen}
+                options={{ headerShown: false }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{ headerShown: false }}
+            />
+        </Tab.Navigator>
+    );
 }
 
 export default ServiceProviderBottomTabNavigator;

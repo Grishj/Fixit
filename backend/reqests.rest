@@ -9,7 +9,7 @@ GET http://localhost:3000/ip
 GET http://localhost:3000/pagenotexist
 
 
-############# USER RELATED #####################
+############# USER RELATED ##############
 ### Get users
 GET http://localhost:3000/users
 
@@ -31,7 +31,7 @@ POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-  "name": "suwi",
+  "name": "Suwi",
   "location_latitude": 45,
   "location_longitude": 45,
   "email": "sth123321@ath.com",
@@ -79,10 +79,6 @@ Content-Type: image/jpeg
 --boundary--
 
 
-
-
-
-
 ############ SERVICE PROVIDERS RELATED ##
 
 ### Create Provider
@@ -106,6 +102,7 @@ Content-Type: application/json
   "phone": "9898989898",
   "password": "pw"
 }
+
 ### Get Service Providers
 GET http://localhost:3000/providers
 
@@ -225,6 +222,7 @@ Vivek Electronics Updated
 --boundary--
 
 
+
 ################# CONTACT RELATED #########
 ### Call (get phone number)
 GET http://localhost:3000/call
@@ -258,8 +256,8 @@ Content-Type: application/json
 
 
 
+############### BOOKING RELATED ###############
 
-############### BOOKING RELATED #######
 ### Book a service // Send request with JWT token to book a service.
 POST http://localhost:3000/booking
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3RoNjhAYXRoLmNvbSIsImlhdCI6MTczMjg2ODQ1MCwiZXhwIjoxNzMyOTU0ODUwfQ.HC0WofOVno1yyQWL5n9lQ0L7f5dtvX4H1mAWaB1GBeM
