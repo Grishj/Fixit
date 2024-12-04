@@ -7,6 +7,7 @@ import SignUpChoiceScreen from "./SignUpChoiceScreen";
 import DrawerContent from "./DrawerContent";
 import HomePage from "./HomeScreen.js";
 import UserHomePage from "./UserHomeScreen.js";
+import UserHomeScreen from "./UserHomeScreen.js";
 import ServiceProviderHomeScreen from "./ProviderHomeScreen.js";
 import ServiceDetails from "./ServiceDetailScreen";
 import ForgotPasswordScreen from "./ForgotPasswordScreen";
@@ -23,7 +24,7 @@ import ChoiceScreen from "./ChoiceScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="ServiceProviderHomeScreen">
+    <Stack.Navigator initialRouteName="UserHomeScreen">
       <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}
@@ -34,7 +35,7 @@ function StackNavigator() {
         component={ChoiceScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="UserHomePage" component={UserHomePage} />
+      <Stack.Screen name="UserHomeScreen" component={UserHomeScreen} />
       <Stack.Screen
         name="ServiceProviderHomeScreen"
         component={ServiceProviderHomeScreen}

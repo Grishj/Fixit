@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -24,9 +24,9 @@ const CATEGORIES = [
 ];
 
 const PROMOTIONS = [
-  { id: 1, image: "/api/placeholder/350/150" },
-  { id: 2, image: "/api/placeholder/350/150" },
-  { id: 3, image: "/api/placeholder/350/150" },
+  { id: 1, image: require("../images/AC.jpeg") },
+  { id: 2, image: require("../images/security.jpeg") },
+  { id: 3, image: require("../images/maintenance.jpg") },
 ];
 
 const POPULAR_SERVICES = [
@@ -34,42 +34,62 @@ const POPULAR_SERVICES = [
     id: 1,
     name: "Home Deep Cleaning",
     price: "Rs999",
-    image: "/api/placeholder/200/200",
+    image: require("../images/cleaning.png"),
   },
   {
     id: 2,
     name: "AC Repair",
     price: "Rs599",
-    image: "/api/placeholder/200/200",
+    image: require("../images/AC.jpeg"),
   },
   {
     id: 3,
     name: "Painting",
     price: "Rs1299",
-    image: "/api/placeholder/200/200",
+    image: require("../images/Onboard.jpg"),
   },
 ];
 
 const SERVICE_PROFESSIONALS = [
   {
     id: 1,
-    name: "John Doe",
+    name: "John Nabin",
     service: "Electrician",
     rating: 4.5,
-    image: "/api/placeholder/100/100",
+    image: require("../images/professional1.png"),
   },
   {
     id: 2,
-    name: "Sarah Smith",
+    name: "Sarah Subash",
     service: "Plumber",
     rating: 4.8,
-    image: "/api/placeholder/100/100",
+    image: require("../images/professional2.png"),
   },
 ];
 
 const UserHomeScreen = () => {
   const [location, setLocation] = useState("Current Location");
   const [searchQuery, setSearchQuery] = useState("");
+  const [activePromotion, setActivePromotion] = useState(0);
+  const scrollRef = useRef();
+
+  // Auto-scroll promotions every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActivePromotion((prev) => (prev + 1) % PROMOTIONS.length);
+    }, 3000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        x: activePromotion * 350, // Adjust for banner width
+        animated: true,
+      });
+    }
+  }, [activePromotion]);
 
   const renderHeader = () => (
     <View style={styles.header}>
@@ -98,12 +118,16 @@ const UserHomeScreen = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
       style={styles.promotionContainer}
+      ref={scrollRef}
     >
       {PROMOTIONS.map((promo) => (
         <Image
           key={promo.id}
-          source={{ uri: promo.image }}
-          style={styles.promotionBanner}
+          source={promo.image}
+          style={[
+            styles.promotionBanner,
+            activePromotion === promo.id - 1 ? styles.activeBanner : null,
+          ]}
         />
       ))}
     </ScrollView>
@@ -130,10 +154,7 @@ const UserHomeScreen = () => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {POPULAR_SERVICES.map((service) => (
           <View key={service.id} style={styles.serviceCard}>
-            <Image
-              source={{ uri: service.image }}
-              style={styles.serviceImage}
-            />
+            <Image source={service.image} style={styles.serviceImage} />
             <Text style={styles.serviceName}>{service.name}</Text>
             <Text style={styles.servicePrice}>{service.price} onwards</Text>
           </View>
@@ -147,10 +168,7 @@ const UserHomeScreen = () => {
       <Text style={styles.sectionTitle}>Top Service Professionals</Text>
       {SERVICE_PROFESSIONALS.map((professional) => (
         <View key={professional.id} style={styles.professionalCard}>
-          <Image
-            source={{ uri: professional.image }}
-            style={styles.professionalImage}
-          />
+          <Image source={professional.image} style={styles.professionalImage} />
           <View style={styles.professionalDetails}>
             <Text style={styles.professionalName}>{professional.name}</Text>
             <Text style={styles.professionalService}>
@@ -236,6 +254,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
   },
+  activeBanner: {
+    borderWidth: 2,
+    borderColor: "#FF5722",
+  },
   categoriesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -284,9 +306,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   professionalImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: 15,
   },
   professionalDetails: {
@@ -305,14 +327,13 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     marginLeft: 5,
+    color: "#666",
   },
   bottomNavigation: {
     flexDirection: "row",
-    backgroundColor: "white",
     justifyContent: "space-around",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
+    padding: 10,
+    backgroundColor: "white",
   },
   navItem: {
     alignItems: "center",
