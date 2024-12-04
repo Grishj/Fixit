@@ -50,7 +50,7 @@ function UserSignIn() {
       if (response.ok) {
         alert("Sign-in successful!");
         console.log(result); // Debugging
-        navigation.navigate("HomeScreen"); // Navigate to Home Screen
+        navigation.navigate("UserHomeScreen"); // Navigate to Home Screen
       } else {
         setError(result.message || "Sign-in failed. Please try again.");
       }

@@ -71,7 +71,7 @@ function ProviderSignUp({ navigation }) {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${backend.backendUrl}/signup`, {
+      const response = await fetch(`${backend.backendUrl}/psignup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -2,406 +2,324 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  ScrollView,
-  TextInput,
-  SafeAreaView,
-  TouchableOpacity,
   StyleSheet,
+  ScrollView,
   Image,
-  Modal,
-  Button,
-  RefreshControl,
+  TouchableOpacity,
 } from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import * as Location from "expo-location";
-import * as IntentLauncher from "expo-intent-launcher";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "react-native-vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-function ServiceProviderHomeScreen({ navigation }) {
-  const [location, setLocation] = useState("");
-  const [isNotificationVisible, setNotificationVisible] = useState(false);
-  const [isFavoriteVisible, setFavoriteVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredPopularServices, setFilteredPopularServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
-  const [refreshing, setRefreshing] = useState(false); // State for pull-to-refresh
+// Mock User Data
+const USER_DATA = {
+  name: "Subash", // This can be fetched from your user authentication or database
+  email: "subash@example.com",
+};
 
-  // Function to simulate data refresh
-  const onRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setFilteredPopularServices([...popularServices]); // Refresh popular services
-      setFilteredServices([...services]); // Refresh other services
-      setRefreshing(false);
-    }, 2000); // Simulate a 2-second network request
-  };
+// Mock Data for Service Provider
+const QUICK_STATS = [
+  // ...
+];
+const RECENT_JOBS = [
+  // ...
+];
+const UPCOMING_BOOKINGS = [
+  // ...
+];
 
-  useEffect(() => {
-    const searchTerm = searchQuery.toLowerCase();
+const ServiceProviderHomeScreen = () => {
+  const [notifications, setNotifications] = useState(3);
+  const navigation = useNavigation(); // For navigation on tab clicks
 
-    // Filter both Popular and Our Services based on the search query
-    setFilteredPopularServices(
-      popularServices.filter((service) =>
-        service.name.toLowerCase().includes(searchTerm)
-      )
-    );
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.headerTop}>
+        <View style={styles.profileSection}>
+          <Image
+            source={require("../images/professional2.png")}
+            style={styles.profileImage}
+          />
+          <View>
+            <Text style={styles.welcomeText}>
+              Welcome back, {USER_DATA.name || USER_DATA.email}
+            </Text>
+            <Text style={styles.subHeaderText}>Service Professional</Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.notificationBadge}>
+          <Ionicons name="notifications" size={24} color="#FF5722" />
+          {notifications > 0 && (
+            <View style={styles.notificationCount}>
+              <Text style={styles.notificationCountText}>{notifications}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
-    setFilteredServices(
-      services.filter((service) =>
-        service.name.toLowerCase().includes(searchTerm)
-      )
-    );
-  }, [searchQuery]);
+  const renderQuickStats = () => (
+    <View style={styles.quickStatsContainer}>
+      {QUICK_STATS.map((stat) => (
+        <View key={stat.id} style={styles.statCard}>
+          <MaterialCommunityIcons
+            name={stat.icon}
+            size={30}
+            color={stat.color}
+          />
+          <Text style={styles.statValue}>{stat.value}</Text>
+          <Text style={styles.statName}>{stat.name}</Text>
+        </View>
+      ))}
+    </View>
+  );
 
-  const openGoogleMaps = async () => {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permission to access location was denied");
-        return;
-      }
+  const renderRecentJobs = () => (
+    <View style={styles.sectionContainer}>
+      <Text style={styles.sectionTitle}>Recent Jobs</Text>
+      {RECENT_JOBS.map((job) => (
+        <View key={job.id} style={styles.jobCard}>
+          <View style={styles.jobCardLeft}>
+            <Text style={styles.customerName}>{job.customerName}</Text>
+            <Text style={styles.serviceType}>{job.serviceType}</Text>
+            <Text style={styles.jobDate}>{job.date}</Text>
+          </View>
+          <View style={styles.jobCardRight}>
+            <Text style={styles.jobEarnings}>{job.earnings}</Text>
+            <Text style={styles.jobStatus}>{job.status}</Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
 
-      const userLocation = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = userLocation.coords;
-      const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
-
-      IntentLauncher.startActivityAsync(IntentLauncher.ACTION_VIEW, {
-        data: url,
-      });
-    } catch (error) {
-      console.error("Error opening Google Maps:", error);
-      alert("Error opening Google Maps. Please try again.");
-    }
-  };
-
-  const handleSearch = () => {
-    const exactMatchPopularService = filteredPopularServices.find(
-      (service) => service.name.toLowerCase() === searchQuery.toLowerCase()
-    );
-
-    const exactMatchService = filteredServices.find(
-      (service) => service.name.toLowerCase() === searchQuery.toLowerCase()
-    );
-
-    // Navigate to the exact match if found
-    if (exactMatchPopularService) {
-      navigation.navigate("ServiceDetailScreen", {
-        service: exactMatchPopularService,
-      });
-    } else if (exactMatchService) {
-      navigation.navigate("ServiceDetailScreen", {
-        service: exactMatchService,
-      });
-    } else {
-      alert("Service not found. Please refine your search.");
-    }
-  };
-
-  const handleServiceClick = (service) => {
-    const isNewUser = true; // Replace with actual logic to check if the user is new
-
-    if (isNewUser) {
-      navigation.navigate("SignUpChoiceScreen");
-    } else {
-      navigation.navigate("ServiceDetailScreen", { service });
-    }
-  };
+  const renderUpcomingBookings = () => (
+    <View style={styles.sectionContainer}>
+      <Text style={styles.sectionTitle}>Upcoming Bookings</Text>
+      {UPCOMING_BOOKINGS.map((booking) => (
+        <View key={booking.id} style={styles.bookingCard}>
+          <View>
+            <Text style={styles.customerName}>{booking.customerName}</Text>
+            <Text style={styles.serviceType}>{booking.serviceType}</Text>
+            <Text style={styles.bookingDetails}>{booking.date}</Text>
+            <Text style={styles.bookingLocation}>{booking.location}</Text>
+          </View>
+          <View style={styles.bookingActions}>
+            <TouchableOpacity style={styles.acceptButton}>
+              <Text style={styles.acceptButtonText}>Accept</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.rejectButton}>
+              <Text style={styles.rejectButtonText}>Reject</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+  const renderBottomNavigation = () => (
+    <View style={styles.bottomNavigation}>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Ionicons name="home" size={24} color="#FF5722" />
+        <Text style={styles.navText}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("Schedule")}
+      >
+        <MaterialIcons name="calendar-today" size={24} color="#666" />
+        <Text style={styles.navText}>Schedule</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("Jobs")}
+      >
+        <MaterialIcons name="work" size={24} color="#666" />
+        <Text style={styles.navText}>Jobs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("ProfileScreen")}
+      >
+        <Ionicons name="person" size={24} color="#666" />
+        <Text style={styles.navText}>Profile</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              colors={["#3B3B3B"]} // Customize the spinner color
-              tintColor="#3B3B3B" // For iOS
-            />
-          }
-        >
-          {/* Header, Search Location, and Search for Service View */}
-          <View style={styles.headerSearchContainer}>
-            {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.title}>HomeSolution</Text>
-              <View style={styles.headerIcons}>
-                {/* Notification Icon */}
-                <TouchableOpacity
-                  onPress={() => setNotificationVisible(true)}
-                  accessibilityLabel="Open Notifications"
-                >
-                  <Ionicons
-                    name="notifications"
-                    size={24}
-                    color="#000"
-                    style={{ marginRight: 15 }}
-                  />
-                </TouchableOpacity>
-
-                {/* Favorite Icon */}
-                <TouchableOpacity
-                  onPress={() => setFavoriteVisible(true)}
-                  accessibilityLabel="Open Favorites"
-                >
-                  <Ionicons
-                    name="heart"
-                    size={24}
-                    color="#000"
-                    style={{ marginRight: 5 }}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/* Search Location */}
-            <View style={styles.searchContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Set your location"
-                value={location}
-                onChangeText={setLocation}
-              />
-              <TouchableOpacity
-                onPress={openGoogleMaps}
-                style={styles.searchButton}
-              >
-                <Ionicons name="location-sharp" size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-
-            {/* Search for Service */}
-            <View style={styles.searchContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search for Service"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
-              <TouchableOpacity
-                onPress={handleSearch}
-                style={styles.searchButton}
-              >
-                <FontAwesome5 name="search" size={20} color="white" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {/* Services Section View */}
-          <View style={styles.servicesContainer}>
-            <Text style={styles.sectionTitle}>Popular Services</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.categoriesContainer}
-            >
-              {filteredPopularServices.map((category, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.categoryItem}
-                  onPress={() =>
-                    navigation.navigate("ServiceDetailScreen", {
-                      service: category,
-                    })
-                  }
-                >
-                  <View
-                    style={[
-                      styles.categoryIcon,
-                      { backgroundColor: category.color },
-                    ]}
-                  >
-                    <FontAwesome5
-                      name={category.icon}
-                      size={24}
-                      color="white"
-                    />
-                  </View>
-                  <Text style={styles.categoryText}>{category.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-
-            {/* Our Services Section */}
-            <Text style={styles.sectionTitle}>Our Services</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {filteredServices.map((service, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.serviceItem}
-                  onPress={() => handleServiceClick(service)}
-                >
-                  <Image source={service.image} style={styles.serviceImage} />
-                  <Text style={styles.serviceText}>{service.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-
-            {/* Our Services Section 2 */}
-            <Text style={styles.sectionTitle}>Our Services 2</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {filteredServices.map((service, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.serviceItem}
-                  onPress={() => handleServiceClick(service)}
-                >
-                  <Image source={service.image} style={styles.serviceImage} />
-                  <Text style={styles.serviceText}>{service.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          {/* Notification Modal */}
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={isNotificationVisible}
-            onRequestClose={() => setNotificationVisible(false)}
-          >
-            <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>Notifications</Text>
-              <Text>No new notifications at the moment.</Text>
-              <Button
-                title="Close"
-                onPress={() => setNotificationVisible(false)}
-              />
-            </View>
-          </Modal>
-
-          {/* Favorite Modal */}
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={isFavoriteVisible}
-            onRequestClose={() => setFavoriteVisible(false)}
-          >
-            <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>Favorites</Text>
-              <Text>No favorite items added yet!</Text>
-              <Button title="Close" onPress={() => setFavoriteVisible(false)} />
-            </View>
-          </Modal>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <ScrollView>
+        {renderHeader()}
+        {renderQuickStats()}
+        {renderRecentJobs()}
+        {renderUpcomingBookings()}
+      </ScrollView>
+      {renderBottomNavigation()}
+    </View>
   );
-}
-
-const popularServices = [
-  { name: "AC Repair", icon: "tools", color: "#FF6584" },
-  { name: "Painting", icon: "paint-brush", color: "#7F63D3" },
-  { name: "Electronics", icon: "tv", color: "#00C4B4" },
-  { name: "Plumbing", icon: "wrench", color: "#FFA62B" },
-  { name: "Appliances", icon: "plug", color: "#82D173" },
-];
-
-const services = [
-  { name: "Cleaning", image: require("../images/cleaning.png") },
-  { name: "Maintenance", image: require("../images/maintenance.jpg") },
-  { name: "Security", image: require("../images/security.jpeg") },
-];
+};
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#f4f4f4",
-  },
   container: {
     flex: 1,
-    padding: 15,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  headerSearchContainer: {
-    marginBottom: 20,
+    backgroundColor: "#F5F5F5",
   },
   header: {
+    backgroundColor: "white",
+    paddingTop: 50,
+    paddingBottom: 15,
+    paddingHorizontal: 15,
+  },
+  headerTop: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 10,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  headerIcons: {
+  profileSection: {
     flexDirection: "row",
     alignItems: "center",
   },
-  searchContainer: {
-    flexDirection: "row",
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    alignItems: "center",
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15,
   },
-  searchInput: {
-    flex: 1,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    marginRight: 10,
-  },
-  searchButton: {
-    padding: 10,
-    backgroundColor: "#3B3B3B",
-    borderRadius: 8,
-  },
-  servicesContainer: {
-    marginTop: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
+  welcomeText: {
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
   },
-  categoriesContainer: {
-    marginBottom: 20,
+  subHeaderText: {
+    color: "#666",
   },
-  categoryItem: {
-    alignItems: "center",
-    marginRight: 20,
+  notificationBadge: {
+    position: "relative",
   },
-  categoryIcon: {
-    padding: 15,
-    borderRadius: 30,
-  },
-  categoryText: {
-    marginTop: 5,
-    textAlign: "center",
-    fontSize: 14,
-  },
-  serviceItem: {
-    marginRight: 20,
-    alignItems: "center",
-  },
-  serviceImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 8,
-  },
-  serviceText: {
-    marginTop: 5,
-    fontSize: 14,
-    textAlign: "center",
-  },
-  modalView: {
-    flex: 1,
+  notificationCount: {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    backgroundColor: "#FF5722",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalTitle: {
-    fontSize: 20,
+  notificationCountText: {
+    color: "white",
+    fontSize: 12,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "#fff",
+  },
+  quickStatsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "white",
+    paddingVertical: 15,
+    marginVertical: 10,
+  },
+  statCard: {
+    alignItems: "center",
+    width: "30%",
+  },
+  statValue: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  statName: {
+    color: "#666",
+    fontSize: 12,
+  },
+  sectionContainer: {
+    backgroundColor: "white",
+    padding: 15,
+    marginVertical: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  jobCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F0",
+  },
+  customerName: {
+    fontWeight: "bold",
+  },
+  serviceType: {
+    color: "#666",
+  },
+  jobDate: {
+    color: "#666",
+    fontSize: 12,
+  },
+  jobEarnings: {
+    fontWeight: "bold",
+    color: "#2ECC71",
+  },
+  jobStatus: {
+    color: "#666",
+    fontSize: 12,
+  },
+  bookingCard: {
+    backgroundColor: "#F9F9F9",
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  bookingActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  acceptButton: {
+    backgroundColor: "#2ECC71",
+    padding: 10,
+    borderRadius: 5,
+    width: "48%",
+    alignItems: "center",
+  },
+  rejectButton: {
+    backgroundColor: "#E74C3C",
+    padding: 10,
+    borderRadius: 5,
+    width: "48%",
+    alignItems: "center",
+  },
+  acceptButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  rejectButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  bottomNavigation: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "white",
+    paddingVertical: 10,
+  },
+  navItem: {
+    alignItems: "center",
+  },
+  navText: {
+    marginTop: 5,
+    fontSize: 12,
   },
 });
 

@@ -1,28 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 
-function ServiceListScreen ({ navigation })  {
-  const [services, setServices] = useState([
-    { id: 1, title: 'Cleaning', description: 'Professional house cleaning service' },
-    { id: 2, title: 'Lawn Mowing', description: 'Get your lawn mowed by an expert' },
-    { id: 3, title: 'Handyman', description: 'Fix that leaky faucet or broken cabinet' },
-    { id: 4, title: 'Grocery Delivery', description: 'Get your groceries delivered to your doorstep' },
-  ]);
+// Mock Data for Professionals
+const PROFESSIONALS = {
+  Cleaning: [
+    {
+      id: 1,
+      name: "John Doe",
+      rating: 4.5,
+      image: require("../images/cleaning.png"),
+    },
+  ],
+  Repair: [
+    {
+      id: 2,
+      name: "Sarah Smith",
+      rating: 4.8,
+      image: require("../images/maintenance.jpg"),
+    },
+  ],
+  Painting: [
+    {
+      id: 3,
+      name: "Tom Harris",
+      rating: 4.6,
+      image: require("../images/Onboard.jpg"),
+    },
+  ],
+  Plumbing: [
+    {
+      id: 4,
+      name: "Chris Brown",
+      rating: 4.9,
+      image: require("../images/security.jpeg"),
+    },
+  ],
+  Electrical: [
+    {
+      id: 5,
+      name: "Mike Green",
+      rating: 4.7,
+      image: require("../images/AC.jpeg"),
+    },
+  ],
+};
 
-  const handleServicePress = (service) => {
-    navigation.navigate('ServiceDetail', { service });
-  };
+const ServiceListScreen = ({ route }) => {
+  const { category, service } = route.params || {};
+  const professionals = PROFESSIONALS[category.name] || [];
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>{category.name} Professionals</Text>
       <FlatList
-        data={services}
+        data={professionals}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.serviceItem} onPress={() => handleServicePress(item)}>
-            <Text style={styles.serviceTitle}>{item.title}</Text>
-            <Text style={styles.serviceDescription}>{item.description}</Text>
-          </TouchableOpacity>
+          <View style={styles.card}>
+            <Image source={item.image} style={styles.image} />
+            <View>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.rating}>Rating: {item.rating}</Text>
+            </View>
+          </View>
         )}
       />
     </View>
@@ -32,24 +72,30 @@ function ServiceListScreen ({ navigation })  {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
-    padding: 16,
+    padding: 15,
+    backgroundColor: "white",
   },
-  serviceItem: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    marginVertical: 8,
-    elevation: 2,
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
-  serviceTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
+  card: {
+    flexDirection: "row",
+    marginBottom: 10,
+    alignItems: "center",
   },
-  serviceDescription: {
-    fontSize: 16,
-    color: '#666',
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 15,
+  },
+  name: {
+    fontWeight: "bold",
+  },
+  rating: {
+    color: "#666",
   },
 });
 

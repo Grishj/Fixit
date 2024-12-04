@@ -50,7 +50,7 @@ function ProviderSignIn() {
       if (response.ok) {
         alert("Sign-in successful!");
         console.log(result);
-        navigation.navigate("HomeScreen");
+        navigation.navigate("ServiceProviderHomeScreen");
       } else {
         setError(result.message || "Sign-in failed. Please try again.");
       }

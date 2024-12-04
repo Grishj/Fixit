@@ -13,6 +13,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "react-native-vector-icons";
+import ServiceListScreen from "./ServiceListScreen";
 
 // Mock Data
 const CATEGORIES = [
