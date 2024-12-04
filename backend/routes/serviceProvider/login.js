@@ -39,11 +39,12 @@ router.post("/", async (req, res) => {
             expiresIn: "1d",
         });
 
-        res.status(200).json({
-            message: "Login successful",
-            provider,
-            token,
-        });
+        res.status(200).json(provider);
+        // res.status(200).json({
+        //     message: "Login successful",
+        //     provider,
+        //     token,
+        // });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
