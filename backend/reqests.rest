@@ -34,8 +34,8 @@ Content-Type: application/json
   "name": "suwi",
   "location_latitude": 45,
   "location_longitude": 45,
-  "email": "sth2@ath.com",
-  "phone": 9841123464,
+  "email": "sth123321@ath.com",
+  "phone": 98411234656565,
   "password": "pw"
 }
 
@@ -91,8 +91,8 @@ Content-Type: application/json
 
 {
    "name": "Suwi Gtm",
-    "email": "sth6@ath.com",
-    "phone": "90000000005",
+    "email": "sth9@ath.com",
+    "phone": "90000000009",
     "password": "pw",
     "address": "Lamachaur",
     "city": "Pokhara"

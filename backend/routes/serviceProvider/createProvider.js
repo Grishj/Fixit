@@ -62,11 +62,12 @@ app.post("/", async (req, resp) => {
                     expiresIn: "1d",
                 });
 
-                resp.status(200).json({
-                    message: "Signup successful",
-                    provider,
-                    token,
-                });
+                resp.status(200).json(provider);
+                // resp.status(200).json({
+                //     message: "Signup successful",
+                //     provider,
+                //     token,
+                // });
             }
         });
     } else if (!name) {
