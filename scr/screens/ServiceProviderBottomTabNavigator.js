@@ -5,8 +5,7 @@ import ProviderHomeScreen from "./ProviderHomeScreen";
 import TaskListScreen from "./TaskListScreen";
 import StatsScreen from "./StatsScreen";
 import ProfileScreen from "./ProfileScreen";
-//import HomePage from "./HomePage"; // Import HomePage component
-import ServiceProviderHomeScreen from "./ProviderHomeScreen";
+import HomePage from "./HomePage"; // Import HomePage component
 
 const Tab = createBottomTabNavigator();
 
@@ -38,11 +37,11 @@ function ServiceProviderBottomTabNavigator() {
       <Tab.Screen
         name="ServiceHome"
         component={HomePage}
-        options={{ headerShown: false, title: "ServiceProviderhomeScreen" }}
+        options={{ headerShown: false, title: "HomePage" }}
       />
       <Tab.Screen
         name="Home"
-        component={ServiceProviderHomeScreen}
+        component={ProviderHomeScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen
