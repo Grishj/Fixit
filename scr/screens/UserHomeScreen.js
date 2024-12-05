@@ -13,7 +13,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "react-native-vector-icons";
-import ServiceListScreen from "./ServiceListScreen";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 
 // Mock Data
 const CATEGORIES = [
@@ -69,6 +69,7 @@ const SERVICE_PROFESSIONALS = [
 ];
 
 const UserHomeScreen = () => {
+  const navigation = useNavigation(); // Initialize navigation
   const [location, setLocation] = useState("Current Location");
   const [searchQuery, setSearchQuery] = useState("");
   const [activePromotion, setActivePromotion] = useState(0);
@@ -137,7 +138,11 @@ const UserHomeScreen = () => {
   const renderCategories = () => (
     <View style={styles.categoriesContainer}>
       {CATEGORIES.map((category) => (
-        <TouchableOpacity key={category.id} style={styles.categoryItem}>
+        <TouchableOpacity
+          key={category.id}
+          style={styles.categoryItem}
+          onPress={() => navigation.navigate("ServiceListScreen", { category })}
+        >
           <MaterialCommunityIcons
             name={category.icon}
             size={30}
@@ -154,11 +159,17 @@ const UserHomeScreen = () => {
       <Text style={styles.sectionTitle}>Popular Services</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {POPULAR_SERVICES.map((service) => (
-          <View key={service.id} style={styles.serviceCard}>
+          <TouchableOpacity
+            key={service.id}
+            style={styles.serviceCard}
+            onPress={() =>
+              navigation.navigate("ServiceDetailScreen", { service })
+            }
+          >
             <Image source={service.image} style={styles.serviceImage} />
             <Text style={styles.serviceName}>{service.name}</Text>
             <Text style={styles.servicePrice}>{service.price} onwards</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -191,11 +202,17 @@ const UserHomeScreen = () => {
         <Ionicons name="home" size={24} color="#FF5722" />
         <Text style={styles.navText}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navItem}>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("BookingScreen")}
+      >
         <MaterialIcons name="book-online" size={24} color="#666" />
         <Text style={styles.navText}>Bookings</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navItem}>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.navigate("ProfileScreen")}
+      >
         <Ionicons name="person" size={24} color="#666" />
         <Text style={styles.navText}>Profile</Text>
       </TouchableOpacity>

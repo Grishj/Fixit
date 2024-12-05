@@ -22,6 +22,7 @@ import ServiceDetailScreen from "./ServiceDetailScreen";
 import ServiceListScreen from "./ServiceListScreen";
 import BookingDetailsScreen from "./BookingDetailsScreen";
 import ChoiceScreen from "./ChoiceScreen.js";
+import BookingScreen from "./BookingScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
@@ -102,11 +103,13 @@ function StackNavigator() {
         options={{ title: "Service Details" }}
       />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+
       <Stack.Screen
         name="BookingDetailsScreen"
         component={BookingDetailsScreen}
         options={{ title: "Booking Details" }}
       />
+      <Stack.Screen name="BookingScreen" component={BookingScreen} />
     </Stack.Navigator>
   );
 }
