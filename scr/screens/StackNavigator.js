@@ -23,6 +23,8 @@ import ServiceListScreen from "./ServiceListScreen";
 import BookingDetailsScreen from "./BookingDetailsScreen";
 import ChoiceScreen from "./ChoiceScreen.js";
 import BookingScreen from "./BookingScreen.js";
+import TaskListScreen from "./TaskListScreen.js";
+import StatsScreen from "./StatsScreen.js";
 const Stack = createStackNavigator();
 function StackNavigator() {
   return (
@@ -37,10 +39,15 @@ function StackNavigator() {
         component={ChoiceScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="UserHomeScreen" component={UserHomeScreen} />
+      <Stack.Screen
+        name="UserHomeScreen"
+        component={UserHomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="ServiceProviderHomeScreen"
         component={ServiceProviderHomeScreen}
+        options={{ headerShown: false }}
       />
 
       <Stack.Screen
@@ -66,6 +73,8 @@ function StackNavigator() {
         component={MapIntegrationScreen}
       />
       <Stack.Screen name="ServiceListScreen" component={ServiceListScreen} />
+      <Stack.Screen name="StatsScreen" component={StatsScreen} />
+      <Stack.Screen name="TaskListScreen" component={TaskListScreen} />
 
       <Stack.Screen
         name="UserSignIn"

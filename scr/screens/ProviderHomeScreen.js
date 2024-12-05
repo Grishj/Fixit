@@ -16,19 +16,77 @@ import { useNavigation } from "@react-navigation/native";
 
 // Mock User Data
 const USER_DATA = {
-  name: "Subash", // This can be fetched from your user authentication or database
+  name: "User", // This can be fetched from your user authentication or database
   email: "subash@example.com",
 };
 
 // Mock Data for Service Provider
 const QUICK_STATS = [
-  // ...
+  {
+    id: 1,
+    name: "Completed Jobs",
+    icon: "check-circle",
+    value: 3,
+    color: "#2ECC71",
+  },
+  {
+    id: 2,
+    name: "Total Earnings",
+    icon: "cash",
+    value: "Rs45,32",
+    color: "#3498DB",
+  },
+  {
+    id: 3,
+    name: "Rating",
+    icon: "star",
+    value: "4.8",
+    color: "#F39C12",
+  },
 ];
+
 const RECENT_JOBS = [
-  // ...
+  {
+    id: 1,
+    customerName: "Rajesh Kumar",
+    serviceType: "Home Cleaning",
+    date: "12 Dec, 2:30 PM",
+    status: "Completed",
+    earnings: "Rs999",
+  },
+  {
+    id: 2,
+    customerName: "Priya Sharma",
+    serviceType: "AC Repair",
+    date: "11 Dec, 10:00 AM",
+    status: "Completed",
+    earnings: "Rs599",
+  },
+  {
+    id: 3,
+    customerName: "Amit Patel",
+    serviceType: "Electrical Repair",
+    date: "10 Dec, 4:45 PM",
+    status: "Completed",
+    earnings: "Rs1,299",
+  },
 ];
+
 const UPCOMING_BOOKINGS = [
-  // ...
+  {
+    id: 1,
+    customerName: "Sarah Khan",
+    serviceType: "Deep Cleaning",
+    date: "15 Dec, 11:00 AM",
+    location: "Lamachour, Pokhara",
+  },
+  {
+    id: 2,
+    customerName: "Rahul Mehta",
+    serviceType: "Plumbing",
+    date: "16 Dec, 3:00 PM",
+    location: "Batulechaur, Pokhara",
+  },
 ];
 
 const ServiceProviderHomeScreen = () => {
@@ -40,7 +98,7 @@ const ServiceProviderHomeScreen = () => {
       <View style={styles.headerTop}>
         <View style={styles.profileSection}>
           <Image
-            source={require("../images/professional2.png")}
+            source={require("../images/Avatr.png")}
             style={styles.profileImage}
           />
           <View>
@@ -131,14 +189,14 @@ const ServiceProviderHomeScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navItem}
-        onPress={() => navigation.navigate("Schedule")}
+        onPress={() => navigation.navigate("TaskListScreen")}
       >
         <MaterialIcons name="calendar-today" size={24} color="#666" />
         <Text style={styles.navText}>Schedule</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navItem}
-        onPress={() => navigation.navigate("Jobs")}
+        onPress={() => navigation.navigate("StatsScreen")}
       >
         <MaterialIcons name="work" size={24} color="#666" />
         <Text style={styles.navText}>Jobs</Text>
