@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const createAllTables = require("./config/makeTable.js");
 require("dotenv").config();
 
 const client = require("./config/database.js");
@@ -9,6 +10,9 @@ PORT = process.env.SERVER_PORT || 3000;
 const app = express();
 
 app.use(express.json());
+
+createAllTables(); // Making tables in database if they do not exists.
+
 const ip = require("./helper/ip.js");
 
 const login = require("./routes/user/login.js");
