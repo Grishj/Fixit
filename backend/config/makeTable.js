@@ -1,4 +1,4 @@
-const client = require("./database");
+const pool = require("./database");
 
 // Function to create the Users table
 const createUsersTable = async () => {
@@ -14,8 +14,7 @@ const createUsersTable = async () => {
             profile_picture BYTEA
         );
     `;
-    await client.query(query);
-    console.log("Users table created successfully!");
+    const userTable = await pool.query(query);
 };
 
 // Function to create the ServiceProviders table
@@ -36,8 +35,7 @@ const createServiceProvidersTable = async () => {
             CONSTRAINT email_phone_unique UNIQUE (email, phone)
         );
     `;
-    await client.query(query);
-    console.log("ServiceProviders table created successfully!");
+    await pool.query(query);
 };
 
 // Function to create the Services table
@@ -55,8 +53,7 @@ const createServicesTable = async () => {
             FOREIGN KEY (spid) REFERENCES ServiceProviders(spid)
         );
     `;
-    await client.query(query);
-    console.log("Services table created successfully!");
+    await pool.query(query);
 };
 
 // Function to create the Messages table
@@ -73,8 +70,7 @@ const createMessagesTable = async () => {
             FOREIGN KEY (spid) REFERENCES ServiceProviders(spid)
         );
     `;
-    await client.query(query);
-    console.log("Messages table created successfully!");
+    await pool.query(query);
 };
 
 // Function to create the Bookings table
@@ -92,8 +88,7 @@ const createBookingsTable = async () => {
             FOREIGN KEY (sid) REFERENCES Services(sid)
         );
     `;
-    await client.query(query);
-    console.log("Bookings table created successfully!");
+    await pool.query(query);
 };
 
 // Main function to create all tables
@@ -104,11 +99,11 @@ const createAllTables = async () => {
         await createServicesTable();
         await createMessagesTable();
         await createBookingsTable();
-        console.log("All tables created successfully!");
+        console.log("Database it good to go....");
     } catch (error) {
         console.error("Error creating tables:", error.message);
     } finally {
-        client.end(); // Close the database connection
+        // pool.end(); // Close the database connection
     }
 };
 

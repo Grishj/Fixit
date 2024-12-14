@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 const auth = require("../../auth/auth.js");
 const app = express();
 app.use(express.json());
@@ -12,7 +12,7 @@ app.get("/", auth, async (req, resp) => {
     const values = [id];
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         resp.status(200).json(result.rows[0]);
         console.log(result);
     } catch (err) {

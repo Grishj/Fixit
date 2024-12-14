@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 const auth = require("../../auth/auth.js");
 const app = express();
 app.use(express.json());
@@ -9,14 +9,14 @@ app.post("/", auth, async (req, resp) => {
 
     try {
         // Check if user exists
-        const existingUsers = await client.query(
+        const existingUsers = await pool.query(
             `SELECT * FROM users WHERE id = $1`,
             [id]
         );
         const userExist = existingUsers.rowCount > 0;
 
         // Check if service exists
-        const existingServices = await client.query(
+        const existingServices = await pool.query(
             `SELECT * FROM services WHERE sid = $1`,
             [sid]
         );
@@ -25,13 +25,13 @@ app.post("/", auth, async (req, resp) => {
         // Check if booking already exists
         const bookingExist =
             (
-                await client.query(
+                await pool.query(
                     `SELECT * FROM bookings WHERE id = $1 AND sid = $2`,
                     [id, sid]
                 )
             ).rowCount > 0;
 
-        const spid = await client.query(
+        const spid = await pool.query(
             `SELECT spid FROM services WHERE sid = $1`,
             [sid]
         );
@@ -57,7 +57,7 @@ app.post("/", auth, async (req, resp) => {
             RETURNING *;`;
         const values = [id, sid, status];
 
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         resp.status(201).json(result.rows[0]);
     } catch (err) {
         console.error(err);

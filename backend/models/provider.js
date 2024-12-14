@@ -1,4 +1,4 @@
-const client = require("../config/database");
+const pool = require("../config/database");
 const bcrypt = require("bcrypt");
 
 const createProvider = async (
@@ -30,7 +30,7 @@ const createProvider = async (
     ];
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         return result.rows[0];
     } catch (err) {
         console.error(err);
@@ -109,7 +109,7 @@ const updateProvider = async (
     `;
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         if (result.rowCount === 0) {
             throw new Error("Provider not found");
         }
@@ -123,7 +123,7 @@ const updateProvider = async (
 const getProviderByEmail = async (email) => {
     const query = `SELECT * FROM serviceproviders WHERE email = $1`;
     try {
-        const result = await client.query(query, [email]);
+        const result = await pool.query(query, [email]);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -134,7 +134,7 @@ const getProviderByEmail = async (email) => {
 const getProviderByPhone = async (phone) => {
     const query = `SELECT * FROM serviceproviders WHERE phone = $1`;
     try {
-        const result = await client.query(query, [phone]);
+        const result = await pool.query(query, [phone]);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -145,7 +145,7 @@ const getProviderByPhone = async (phone) => {
 const getProviders = async () => {
     const query = `SELECT * FROM providers`;
     try {
-        const result = await client.query(query);
+        const result = await pool.query(query);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -160,7 +160,7 @@ const deleteProviderById = async (id) => {
 
     const query = `DELETE FROM serviceproviders WHERE id = $1 RETURNING *;`;
     try {
-        const result = await client.query(query, [id]);
+        const result = await pool.query(query, [id]);
         if (result.rowCount === 0) {
             throw new Error("Provider not found");
         }

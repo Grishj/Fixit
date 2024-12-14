@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.delete("/:id", (req, resp) => {
         DELETE FROM users WHERE id = $1 RETURNING *;
     `;
 
-    client.query(query, [id], (err, result) => {
+    pool.query(query, [id], (err, result) => {
         if (err) {
             console.error(err);
             resp.status(500).send("Error deleting user from the database");

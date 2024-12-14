@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
 
@@ -78,7 +78,7 @@ app.put("/:spid", upload.single("profile_picture"), async (req, resp) => {
         RETURNING *;
     `;
 
-    client.query(query, values, (err, result) => {
+    pool.query(query, values, (err, result) => {
         if (err) {
             console.error(err);
             resp.status(500).send("Error updating user in the database");

@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js"); // Assuming you have configured the database client
+const pool = require("../../config/database.js"); // Assuming you have configured the database pool
 const app = express();
 
 // Middleware to parse JSON body
@@ -24,7 +24,7 @@ app.post("/", async (req, resp) => {
         const values = [id, spid, messagetext, senderType];
 
         // Execute the query
-        await client.query(query, values);
+        await pool.query(query, values);
 
         // Send a success response
         resp.status(201).json({ message: "Data saved successfully!" });

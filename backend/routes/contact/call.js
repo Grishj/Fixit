@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 const app = express();
 app.use(express.json());
 
@@ -9,7 +9,7 @@ app.get("/", async (req, res) => {
     console.log(req.body);
     try {
         if (spid) {
-            const result = await client.query(
+            const result = await pool.query(
                 "SELECT phone FROM serviceproviders WHERE spid = $1",
                 [spid]
             );
@@ -21,7 +21,7 @@ app.get("/", async (req, res) => {
                 res.status(404).send("Service Provider not found");
             }
         } else if (id) {
-            const result = await client.query(
+            const result = await pool.query(
                 "SELECT phone FROM users WHERE id = $1",
                 [id]
             );

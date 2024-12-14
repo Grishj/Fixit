@@ -1,8 +1,13 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
 const app = express();
+const {
+    createUser,
+    getUserByEmail,
+    getUserByPhone,
+} = require("../../models/user.js");
 
 app.post("/", upload.single("profile_picture"), async (req, resp) => {
     const {
@@ -16,30 +21,17 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
     const profile_picture = req.file;
     hashedPassword = await hashPassword(password);
 
-    console.log(req.body)
-    const query = `
-    INSERT INTO users (name, location_latitude, location_longitude, email, phone, password, profile_picture)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING *;`;
-    const values = [
-        name,
-        location_latitude,
-        location_longitude,
-        email,
-        phone,
-        hashedPassword,
-        profile_picture,
-    ];
-
-    const dupliPhone = await client.query(
-        `SELECT * FROM users WHERE phone = ${phone}`
-    );
-    duplicatePhone = dupliPhone.rowCount;
-    // Some errors here..
-    const dupliEmail = await client.query(
-        `SELECT * FROM users WHERE email='${email}'`
-    );
-    duplicateEmail = dupliEmail.rowCount;
+    const duplicateEmail = await getUserByEmail(email).rowCount;
+    const duplicatePhone = await getUserByPhone(phone).rowCount;
+    // const dupliPhone = await pool.query(
+    //     `SELECT * FROM users WHERE phone = ${phone}`
+    // );
+    // duplicatePhone = dupliPhone.rowCount;
+    // // Some errors here..
+    // const dupliEmail = await pool.query(
+    //     `SELECT * FROM users WHERE email='${email}'`
+    // );
+    // duplicateEmail = dupliEmail.rowCount;
     if (
         !(duplicateEmail || duplicatePhone) &&
         name &&
@@ -47,17 +39,19 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         email &&
         phone
     ) {
-        client.query(query, values, (err, result) => {
-            if (err) {
-                console.error(err);
-                resp.status(500).send(
-                    "Error inserting data into the database",
-                    err
-                );
-            } else {
-                resp.status(201).json(result.rows[0]);
-            }
-        });
+        try {
+            const result = createUser(
+                name,
+                location_latitude,
+                location_longitude,
+                email,
+                phone,
+                password
+            );
+            resp.send(result);
+        } catch (error) {
+            resp.status(500).send("Some Internal Error Occurred!");
+        }
     } else if (!name) {
         resp.send("Name is required !!");
     } else if (!password) {

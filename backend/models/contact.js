@@ -1,3 +1,3 @@
-const client = require("../config/database");
+const pool = require("../config/database");
 
 module.exports;

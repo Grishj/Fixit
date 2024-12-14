@@ -1,5 +1,5 @@
 const express = require("express");
-const client = require("../../config/database.js"); // Assuming you have configured your PostgreSQL client
+const pool = require("../../config/database.js"); // Assuming you have configured your PostgreSQL pool
 const app = express();
 
 app.get("/", async (req, res) => {
@@ -18,7 +18,7 @@ app.get("/", async (req, res) => {
             ORDER BY sentat ASC
         `;
 
-        const result = await client.query(query, [id, spid]);
+        const result = await pool.query(query, [id, spid]);
 
         res.status(200).json({
             success: true,

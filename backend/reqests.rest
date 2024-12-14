@@ -34,13 +34,14 @@ Content-Type: application/json
   "name": "Suwi",
   "location_latitude": 45,
   "location_longitude": 45,
-  "email": "sth123321@ath.com",
-  "phone": 98411234656565,
+  "email": "sth1233212@ath.com",
+  "phone": 9841123422656565,
   "password": "pw"
 }
 
 ### Update User
 PUT http://localhost:3000/updateUser/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibmFiaW5kYWRhQGhvbWVzb2x1dGlvbi5jb20iLCJpYXQiOjE3MzQxNzkwOTUsImV4cCI6MTczNDI2NTQ5NX0.0bBNXOvxIE0pPJflqtuA4S5wHMd2r1ivwaxMF1Z6mGA
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -50,7 +51,7 @@ Content-Disposition: form-data; name="id"
 --boundary
 Content-Disposition: form-data; name="name"
 
-Nabin Sah
+Nabin Sah updated
 --boundary
 Content-Disposition: form-data; name="location_latitude"
 
@@ -87,8 +88,8 @@ Content-Type: application/json
 
 {
    "name": "Suwi Gtm",
-    "email": "sth9@ath.com",
-    "phone": "90000000009",
+    "email": "sth10@ath.com",
+    "phone": "90000000010",
     "password": "pw",
     "address": "Lamachaur",
     "city": "Pokhara"
@@ -99,7 +100,7 @@ POST http://localhost:3000/plogin
 Content-Type: application/json
 
 {
-  "phone": "9898989898",
+  "identifier": "9898989898",
   "password": "pw"
 }
 
@@ -195,7 +196,7 @@ GET http://localhost:3000/services
 Content-Type: application/json
 
 {
-  #"type": "Electronics"
+  "type": "Electronics"
   # pass type to gwt services of a particular type else you will get all the services.
 }
 ### Get a service

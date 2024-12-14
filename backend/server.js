@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const createAllTables = require("./config/makeTable.js");
 require("dotenv").config();
 
-const client = require("./config/database.js");
+const pool = require("./config/database.js");
 
 PORT = process.env.SERVER_PORT || 3000;
 
@@ -46,7 +46,7 @@ const chat = require("./routes/contact/chat.js");
 
 const notfound = require("./routes/404.js");
 
-client.connect();
+pool.connect();
 
 app.get("/", (req, resp) => {
     resp.status(200).send("Hello from backend !!");

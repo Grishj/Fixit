@@ -1,10 +1,10 @@
 const express = require("express");
-const client = require("../../config/database.js");
+const pool = require("../../config/database.js");
 
 const app = express();
 
 app.get("/:_spid", (req, resp) => {
-    client.query(
+    pool.query(
         `SELECT * FROM serviceproviders WHERE spid = ${req.params._spid}`,
         (err, result) => {
             if (!err) {
@@ -13,7 +13,7 @@ app.get("/:_spid", (req, resp) => {
                 console.log(err.message);
                 resp.status(500).send("Internal Server error !!");
             }
-            client.end;
+            pool.end;
         }
     );
 });

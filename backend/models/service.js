@@ -1,4 +1,4 @@
-const client = require("../config/database");
+const pool = require("../config/database");
 
 const createService = async (
     spid,
@@ -15,7 +15,7 @@ const createService = async (
     const values = [spid, name, description, type, mincharge, service_image];
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         return result.rows[0];
     } catch (err) {
         console.error(err);
@@ -78,7 +78,7 @@ const updateService = async (
     `;
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         if (result.rowCount === 0) {
             throw new Error("Service not found");
         }
@@ -92,7 +92,7 @@ const updateService = async (
 const getServiceById = async (sid) => {
     const query = `SELECT * FROM services WHERE sid = $1`;
     try {
-        const result = await client.query(query, [sid]);
+        const result = await pool.query(query, [sid]);
         return result.rows[0];
     } catch (err) {
         console.error(err.message);
@@ -103,7 +103,7 @@ const getServiceById = async (sid) => {
 const getServicesByProviderId = async (spid) => {
     const query = `SELECT * FROM services WHERE spid = $1`;
     try {
-        const result = await client.query(query, [spid]);
+        const result = await pool.query(query, [spid]);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -114,7 +114,7 @@ const getServicesByProviderId = async (spid) => {
 const getServices = async () => {
     const query = `SELECT * FROM services`;
     try {
-        const result = await client.query(query);
+        const result = await pool.query(query);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -129,7 +129,7 @@ const deleteServiceById = async (sid) => {
 
     const query = `DELETE FROM services WHERE sid = $1 RETURNING *;`;
     try {
-        const result = await client.query(query, [sid]);
+        const result = await pool.query(query, [sid]);
         if (result.rowCount === 0) {
             throw new Error("Service not found");
         }

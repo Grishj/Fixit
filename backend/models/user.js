@@ -1,6 +1,6 @@
 // Never Used
 
-const client = require("../config/database");
+const pool = require("../config/database");
 const hashPassword = require("../helper/hashPassword");
 
 const createUser = async (
@@ -9,13 +9,12 @@ const createUser = async (
     location_longitude,
     email,
     phone,
-    password,
-    profile_picture
+    password
 ) => {
     const hashedPassword = await hashPassword(password);
     const query = `
-        INSERT INTO users (name, location_latitude, location_longitude, email, phone, password, profile_picture)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO users (name, location_latitude, location_longitude, email, phone, password)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *;`;
     const values = [
         name,
@@ -24,11 +23,10 @@ const createUser = async (
         email,
         phone,
         hashedPassword,
-        profile_picture,
     ];
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         return result.rows[0];
     } catch (err) {
         console.error(err);
@@ -97,7 +95,7 @@ const updateUser = async (
     `;
 
     try {
-        const result = await client.query(query, values);
+        const result = await pool.query(query, values);
         if (result.rowCount === 0) {
             throw new Error("User not found");
         }
@@ -111,7 +109,7 @@ const updateUser = async (
 const getUserByEmail = async (email) => {
     const query = `SELECT * FROM users WHERE email = $1`;
     try {
-        const result = await client.query(query, [email]);
+        const result = await pool.query(query, [email]);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -122,7 +120,7 @@ const getUserByEmail = async (email) => {
 const getUserByPhone = async (phone) => {
     const query = `SELECT * FROM users WHERE phone = $1`;
     try {
-        const result = await client.query(query, [phone]);
+        const result = await pool.query(query, [phone]);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -133,7 +131,7 @@ const getUserByPhone = async (phone) => {
 const getUsers = async () => {
     const query = `SELECT * FROM users`;
     try {
-        const result = await client.query(query);
+        const result = await pool.query(query);
         return result.rows;
     } catch (err) {
         console.error(err.message);
@@ -148,7 +146,7 @@ const deleteUserById = async (id) => {
 
     const query = `DELETE FROM users WHERE id = $1 RETURNING *;`;
     try {
-        const result = await client.query(query, [id]);
+        const result = await pool.query(query, [id]);
         if (result.rowCount === 0) {
             throw new Error("User not found");
         }
