@@ -1,20 +1,13 @@
 const express = require("express");
-const pool = require("../../config/database.js");
-
+const { getUsers } = require("../../models/user.js");
 const app = express();
 
-app.get("/", (req, resp) => {
-    pool.query(
-        `SELECT id, name, email, phone, password FROM users`,
-        (err, result) => {
-            if (!err) {
-                resp.status(200).send(result.rows);
-            } else {
-                console.log(err.message);
-                resp.status(500).send("Internal Server error !!");
-            }
-            pool.end;
-        }
-    );
+app.get("/", async (req, resp) => {
+    try {
+        const result = await getUsers();
+        resp.send(result);
+    } catch (err) {
+        resp.status(500).send("Some Internal Error Occurred!");
+    }
 });
 module.exports = app;

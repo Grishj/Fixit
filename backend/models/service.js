@@ -111,14 +111,25 @@ const getServicesByProviderId = async (spid) => {
     }
 };
 
-const getServices = async () => {
-    const query = `SELECT * FROM services`;
-    try {
-        const result = await pool.query(query);
-        return result.rows;
-    } catch (err) {
-        console.error(err.message);
-        throw new Error("Internal Server error !!");
+const getServices = async (type) => {
+    if (type) {
+        const query = `SELECT sid, spid, name, description, mincharge, type FROM services WHERE type = '${type}'`;
+        try {
+            const result = await pool.query(query);
+            return result.rows;
+        } catch (err) {
+            console.error(err.message);
+            throw new Error("Internal Server error !!");
+        }
+    } else {
+        const query = `SELECT sid, spid, name, description, mincharge, type FROM services`;
+        try {
+            const result = await pool.query(query);
+            return result.rows;
+        } catch (err) {
+            console.error(err.message);
+            throw new Error("Internal Server error !!");
+        }
     }
 };
 
@@ -140,6 +151,16 @@ const deleteServiceById = async (sid) => {
     }
 };
 
+const getSeriveTypes = async () => {
+    try {
+        const result = await pool.query("SELECT DISTINCT type FROM services");
+        return result.rows;
+    } catch (err) {
+        console.error(err);
+        resp.status(500).send("Some internal error occurred!");
+    }
+};
+
 module.exports = {
     createService,
     updateService,
@@ -147,4 +168,5 @@ module.exports = {
     getServicesByProviderId,
     getServices,
     deleteServiceById,
+    getSeriveTypes,
 };

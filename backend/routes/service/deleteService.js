@@ -1,29 +1,24 @@
 const express = require("express");
-const pool = require("../../config/database.js");
-
+const { getServiceById, deleteServiceById } = require("../../models/service");
 const app = express();
 
-app.delete("/:sid", (req, resp) => {
+app.delete("/:sid", async (req, resp) => {
     const { sid } = req.params;
 
     if (!sid) {
         return resp.status(400).send("Service ID is required");
-    }
-
-    const query = `
-        DELETE FROM services WHERE sid = $1 RETURNING *;
-    `;
-
-    pool.query(query, [sid], (err, result) => {
-        if (err) {
-            console.error(err);
-            resp.status(500).send("Error deleting user from the database");
-        } else if (result.rowCount === 0) {
-            resp.status(404).send("User not found");
-        } else {
-            resp.status(200).json(result.rows[0]);
+    } else {
+        try {
+            const service = await getServiceById(sid);
+            if (service.rowcount) {
+                const result = await deleteServiceById(sid);
+                resp.send(result);
+            }
+        } catch (err) {
+            console.log(err);
+            resp.status(500).send("Some Internal Error Occurred!");
         }
-    });
+    }
 });
 
 module.exports = app;

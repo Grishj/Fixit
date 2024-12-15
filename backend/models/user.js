@@ -1,5 +1,3 @@
-// Never Used
-
 const pool = require("../config/database");
 const hashPassword = require("../helper/hashPassword");
 
@@ -106,6 +104,17 @@ const updateUser = async (
     }
 };
 
+const getUserById = async (id) => {
+    const query = `SELECT * FROM users WHERE id = $1`;
+    try {
+        const result = await pool.query(query, [id]);
+        return result.rows;
+    } catch (err) {
+        console.error(err.message);
+        throw new Error("Internal Server error !!");
+    }
+};
+
 const getUserByEmail = async (email) => {
     const query = `SELECT * FROM users WHERE email = $1`;
     try {
@@ -129,7 +138,7 @@ const getUserByPhone = async (phone) => {
 };
 
 const getUsers = async () => {
-    const query = `SELECT * FROM users`;
+    const query = `SELECT id, name, email, phone FROM users`;
     try {
         const result = await pool.query(query);
         return result.rows;
@@ -161,6 +170,7 @@ module.exports = {
     createUser,
     updateUser,
     getUsers,
+    getUserById,
     getUserByEmail,
     getUserByPhone,
     deleteUserById,

@@ -1,29 +1,25 @@
 const express = require("express");
-const pool = require("../../config/database.js");
+const { deleteProviderById } = require("../../models/provider");
 
 const app = express();
 
-app.delete("/:spid", (req, resp) => {
+app.delete("/:spid", async (req, res) => {
     const { spid } = req.params;
 
-    if (!spid) {
-        return resp.status(400).send("Service Provider ID (spid) is required");
-    }
-
-    const query = `
-        DELETE FROM serviceproviders WHERE spid = $1 RETURNING *;
-    `;
-
-    pool.query(query, [spid], (err, result) => {
-        if (err) {
-            console.error(err);
-            resp.status(500).send("Error deleting user from the database");
-        } else if (result.rowCount === 0) {
-            resp.status(404).send("User not found");
+    try {
+        const deletedProvider = await deleteProviderById(spid);
+        res.status(200).json({
+            message: "Provider deleted successfully",
+            provider: deletedProvider,
+        });
+    } catch (err) {
+        if (err.message === "Provider not found") {
+            res.status(404).json({ error: "Provider not found" });
         } else {
-            resp.status(200).json(result.rows[0]);
+            console.error("Internal error:", err.message);
+            res.status(500).json({ error: "An internal error occurred" });
         }
-    });
+    }
 });
 
 module.exports = app;

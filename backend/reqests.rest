@@ -14,14 +14,17 @@ GET http://localhost:3000/pagenotexist
 GET http://localhost:3000/users
 
 ### Get a user
-GET http://localhost:3000/user/68
+GET http://localhost:3000/user/29
+
+### Delete a user
+DELETE  http://localhost:3000/deleteUser/68
 
 ### login
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "identifier": "9800000068",
+  "identifier": "984123477",
   "password": "pw"
 }
 
@@ -34,8 +37,8 @@ Content-Type: application/json
   "name": "Suwi",
   "location_latitude": 45,
   "location_longitude": 45,
-  "email": "sth1233212@ath.com",
-  "phone": 9841123422656565,
+  "email": "sth123@ath.com",
+  "phone": 984123477,
   "password": "pw"
 }
 
@@ -51,7 +54,7 @@ Content-Disposition: form-data; name="id"
 --boundary
 Content-Disposition: form-data; name="name"
 
-Nabin Sah updated
+Nabin Sah updated1
 --boundary
 Content-Disposition: form-data; name="location_latitude"
 
@@ -88,8 +91,8 @@ Content-Type: application/json
 
 {
    "name": "Suwi Gtm",
-    "email": "sth10@ath.com",
-    "phone": "90000000010",
+    "email": "sth12@ath.com",
+    "phone": "90000000012",
     "password": "pw",
     "address": "Lamachaur",
     "city": "Pokhara"
@@ -100,7 +103,7 @@ POST http://localhost:3000/plogin
 Content-Type: application/json
 
 {
-  "identifier": "9898989898",
+  "identifier": "90000000012",
   "password": "pw"
 }
 
@@ -111,20 +114,20 @@ GET http://localhost:3000/providers
 GET http://localhost:3000/provider/7
 
 ### Delete a Service Provider
-DELETE http://localhost:3000/deleteProvider/2
+DELETE http://localhost:3000/deleteProvider/7
 
 ### Update Provider 
-PUT http://localhost:3000/updateProvider/3
+PUT http://localhost:3000/updateProvider/23
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
 Content-Disposition: form-data; name="name"
 
-Nabin Sah
+Nabin Sah updated
 --boundary
 Content-Disposition: form-data; name="email"
 
-nabindada@homesolution.com
+nabindada6@homesolution.com
 --boundary
 Content-Disposition: form-data; name="password"
 
@@ -170,7 +173,7 @@ Content-Disposition: form-data; name="spid"
 --boundary
 Content-Disposition: form-data; name="name"
 
-Vivek Electronics
+Nabin Electronics
 --boundary
 Content-Disposition: form-data; name="description"
 
@@ -196,7 +199,7 @@ GET http://localhost:3000/services
 Content-Type: application/json
 
 {
-  "type": "Electronics"
+  # "type": "Electronics"
   # pass type to gwt services of a particular type else you will get all the services.
 }
 ### Get a service
@@ -206,7 +209,7 @@ GET http://localhost:3000/service/3   # Pass service ID
 GET http://localhost:3000/serviceCategories
 
 ### Delete a service
-DELETE http://localhost:3000/deleteService/2 # pass sid (service id)
+DELETE http://localhost:3000/deleteService/17 # pass sid (service id)
 
 ### Update service
 PUT http://localhost:3000/updateService
@@ -230,7 +233,7 @@ GET http://localhost:3000/call
 Content-Type: application/json
 
 {
-  "id": 69
+  "id": 79
   # send either id or spid only
 }
 

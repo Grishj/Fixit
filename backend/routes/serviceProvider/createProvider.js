@@ -1,6 +1,10 @@
 const express = require("express");
-const pool = require("../../config/database.js");
 const jwt = require("jsonwebtoken");
+const {
+    getProviderByEmail,
+    getProviderByPhone,
+    createProvider,
+} = require("../../models/provider.js");
 const hashPassword = require("../../helper/hashPassword.js");
 
 const app = express();
@@ -16,51 +20,40 @@ app.post("/", async (req, resp) => {
         location_latitude,
         location_longitude,
     } = req.body;
-    const passwordhash = await hashPassword(password);
-    const query = `
-    INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-    RETURNING *;
-`;
-    const values = [
-        name,
-        email,
-        passwordhash,
-        phone,
-        address,
-        city,
-        location_latitude,
-        location_longitude,
-    ];
+    let hashedPassword;
+    if (password) {
+        hashedPassword = await hashPassword(password);
+    }
+    console.log(req.body);
 
-    const dupliPhone = await pool.query(
-        `SELECT * FROM serviceproviders WHERE phone = ${phone}`
-    );
-    duplicatePhone = dupliPhone.rowCount;
-    const dupliEmail = await pool.query(
-        `SELECT * FROM serviceproviders WHERE email='${email}'`
-    );
-    duplicateEmail = dupliEmail.rowCount;
+    const duplicateEmail = (await getProviderByEmail(email)).length;
+    const duplicatePhone = (await getProviderByPhone(phone)).length;
+
     if (
         !(duplicateEmail || duplicatePhone) &&
         name &&
-        passwordhash &&
+        hashedPassword &&
         (email || phone)
     ) {
-        pool.query(query, values, (err, result) => {
-            if (err) {
-                console.error(err);
-                resp.status(500).send(
-                    "Error inserting data into the database",
-                    err
-                );
-            } else {
-                resp.status(201).json(result.rows[0]);
-            }
-        });
+        try {
+            const result = await createProvider(
+                name,
+                email,
+                phone,
+                hashedPassword,
+                address,
+                city,
+                location_latitude,
+                location_longitude
+            );
+            resp.status(200).send(result);
+        } catch (err) {
+            console.log("internal error");
+            resp.status(500).send("Some Internal Error Occurred!");
+        }
     } else if (!name) {
         resp.send("Name is required !!");
-    } else if (!passwordhash) {
+    } else if (!hashedPassword) {
         resp.send("Password is required !!");
     } else if (!email) {
         resp.send("Email is required !!");

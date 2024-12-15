@@ -1,5 +1,4 @@
 const express = require("express");
-const pool = require("../../config/database.js");
 const upload = require("../../helper/upload.js");
 const hashPassword = require("../../helper/hashPassword.js");
 const app = express();
@@ -21,17 +20,9 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
     const profile_picture = req.file;
     hashedPassword = await hashPassword(password);
 
-    const duplicateEmail = await getUserByEmail(email).rowCount;
-    const duplicatePhone = await getUserByPhone(phone).rowCount;
-    // const dupliPhone = await pool.query(
-    //     `SELECT * FROM users WHERE phone = ${phone}`
-    // );
-    // duplicatePhone = dupliPhone.rowCount;
-    // // Some errors here..
-    // const dupliEmail = await pool.query(
-    //     `SELECT * FROM users WHERE email='${email}'`
-    // );
-    // duplicateEmail = dupliEmail.rowCount;
+    const duplicateEmail = (await getUserByEmail(email)).length;
+    const duplicatePhone = (await getUserByPhone(phone)).length;
+
     if (
         !(duplicateEmail || duplicatePhone) &&
         name &&
@@ -40,7 +31,7 @@ app.post("/", upload.single("profile_picture"), async (req, resp) => {
         phone
     ) {
         try {
-            const result = createUser(
+            const result = await createUser(
                 name,
                 location_latitude,
                 location_longitude,

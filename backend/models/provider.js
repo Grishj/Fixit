@@ -1,36 +1,34 @@
 const pool = require("../config/database");
-const bcrypt = require("bcrypt");
 
 const createProvider = async (
     name,
     email,
-    password,
     phone,
+    password,
     address,
     city,
     location_latitude,
-    location_longitude,
-    profile_picture
+    location_longitude
 ) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
     const query = `
-        INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude, profile_picture)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        INSERT INTO serviceproviders (name, email, password, phone, address, city, location_latitude, location_longitude)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *;`;
     const values = [
         name,
         email,
-        hashedPassword,
+        password,
         phone,
         address,
         city,
         location_latitude,
         location_longitude,
-        profile_picture,
     ];
 
     try {
+        console.log("trying 2");
         const result = await pool.query(query, values);
+        console.log(result.rows);
         return result.rows[0];
     } catch (err) {
         console.error(err);
@@ -39,18 +37,18 @@ const createProvider = async (
 };
 
 const updateProvider = async (
-    id,
+    spid,
     name,
     email,
-    password,
     phone,
+    password,
     address,
     city,
     location_latitude,
     location_longitude,
     profile_picture
 ) => {
-    if (!id) {
+    if (!spid) {
         throw new Error("Provider ID is required");
     }
 
@@ -67,9 +65,8 @@ const updateProvider = async (
         values.push(email);
     }
     if (password) {
-        const hashedPassword = await bcrypt.hash(password, 10);
         fields.push(`password = $${index++}`);
-        values.push(hashedPassword);
+        values.push(password);
     }
     if (phone) {
         fields.push(`phone = $${index++}`);
@@ -100,11 +97,11 @@ const updateProvider = async (
         throw new Error("No fields to update");
     }
 
-    values.push(id);
+    values.push(spid);
     const query = `
-        UPDATE providers
+        UPDATE serviceproviders
         SET ${fields.join(", ")}
-        WHERE id = $${index}
+        WHERE spid = $${index}
         RETURNING *;
     `;
 
@@ -117,6 +114,17 @@ const updateProvider = async (
     } catch (err) {
         console.error(err);
         throw new Error("Error updating provider in the database");
+    }
+};
+
+const getProviderBySpid = async (spid) => {
+    const query = `SELECT * FROM serviceproviders WHERE spid = $1`;
+    try {
+        const result = await pool.query(query, [spid]);
+        return result.rows;
+    } catch (err) {
+        console.error(err.message);
+        throw new Error("Internal Server error !!");
     }
 };
 
@@ -143,7 +151,7 @@ const getProviderByPhone = async (phone) => {
 };
 
 const getProviders = async () => {
-    const query = `SELECT * FROM providers`;
+    const query = `SELECT spid, name, email, phone, address, city FROM serviceproviders`;
     try {
         const result = await pool.query(query);
         return result.rows;
@@ -153,21 +161,27 @@ const getProviders = async () => {
     }
 };
 
-const deleteProviderById = async (id) => {
-    if (!id) {
+const deleteProviderById = async (spid) => {
+    if (!spid) {
         throw new Error("Provider ID is required");
     }
 
-    const query = `DELETE FROM serviceproviders WHERE id = $1 RETURNING *;`;
+    const query = `DELETE FROM serviceproviders WHERE spid = $1 RETURNING *;`;
+
     try {
-        const result = await pool.query(query, [id]);
+        const result = await pool.query(query, [spid]);
         if (result.rowCount === 0) {
-            throw new Error("Provider not found");
+            const error = new Error("Provider not found");
+            error.code = "NOT_FOUND"; // Assign a custom error code
+            throw error;
         }
-        return result.rows[0];
+        return result.rows[0]; // Return the deleted provider's details
     } catch (err) {
-        console.error(err);
-        throw new Error("Error deleting provider from the database");
+        console.error("Error deleting provider:", err.message);
+        if (err.code === "NOT_FOUND") {
+            throw err; // Rethrow specific error for the route to handle
+        }
+        throw new Error("Internal database error"); // Throw a general error for other cases
     }
 };
 
@@ -175,6 +189,7 @@ module.exports = {
     createProvider,
     updateProvider,
     getProviders,
+    getProviderBySpid,
     getProviderByEmail,
     getProviderByPhone,
     deleteProviderById,

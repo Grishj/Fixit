@@ -22,11 +22,11 @@ app.put("/", upload.single("profile_picture"), async (req, resp) => {
         // Merge existing data with new data
         const updatedService = {
             spid: existingService.spid,
-            name: name || existingService.name,
-            description: description || existingService.description,
-            mincharge: mincharge || existingService.mincharge,
-            type: type || existingService.type,
-            service_image: service_image || existingService.service_image,
+            name: name,
+            description: description,
+            mincharge: mincharge,
+            type: type,
+            service_image: service_image,
         };
 
         // Perform the update
