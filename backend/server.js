@@ -49,7 +49,7 @@ const notfound = require("./routes/404.js");
 pool.connect();
 
 app.get("/", (req, resp) => {
-    resp.status(200).send("Hello from backend !!");
+	resp.status(200).send("Hello from backend !!");
 });
 
 app.use("/ip", ip);
@@ -91,5 +91,5 @@ app.use("/chat", chat);
 app.use("*", notfound); // 404 page
 
 app.listen(PORT, () => {
-    console.log(`Listening at port ${PORT}`);
+	console.log(`Listening at port ${PORT}`);
 });

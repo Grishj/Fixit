@@ -111,7 +111,7 @@ Content-Type: application/json
 GET http://localhost:3000/providers
 
 ### Get a Service Provider
-GET http://localhost:3000/provider/7
+GET http://localhost:3000/provider/6
 
 ### Delete a Service Provider
 DELETE http://localhost:3000/deleteProvider/7
@@ -135,7 +135,7 @@ pw
 --boundary
 Content-Disposition: form-data; name="phone"
 
-9800000068
+9800000069
 --boundary
 Content-Disposition: form-data; name="address"
 
@@ -203,13 +203,13 @@ Content-Type: application/json
   # pass type to gwt services of a particular type else you will get all the services.
 }
 ### Get a service
-GET http://localhost:3000/service/3   # Pass service ID
+GET http://localhost:3000/service/17   # Pass service ID
 
 ### Get service types or categories
 GET http://localhost:3000/serviceCategories
 
 ### Delete a service
-DELETE http://localhost:3000/deleteService/17 # pass sid (service id)
+DELETE http://localhost:3000/deleteService/16 # pass sid (service id)
 
 ### Update service
 PUT http://localhost:3000/updateService
@@ -220,9 +220,13 @@ Content-Disposition: form-data; name="sid"
 
 4
 --boundary
+Content-Disposition: form-data; name="spid"
+
+6
+--boundary--
 Content-Disposition: form-data; name="name"
 
-Vivek Electronics Updated
+Updated service ..
 --boundary--
 
 
@@ -233,7 +237,7 @@ GET http://localhost:3000/call
 Content-Type: application/json
 
 {
-  "id": 79
+  #"id": 724
   # send either id or spid only
 }
 
@@ -244,7 +248,7 @@ Content-Type: application/json
 {
   "id": 69,
   "spid": 4,
-  "messagetext": "Hi dear customer...",
+  "messagetext": "Hi dear customer... I am testing this feature",
   "senderType": "provider"
   # senderType must be either "user" or "provider"
 }

@@ -1,5 +1,6 @@
 const express = require("express");
-const pool = require("../../config/database.js"); // Assuming you have configured the database pool
+const { postChat } = require("../../models/contact");
+
 const app = express();
 
 // Middleware to parse JSON body
@@ -17,17 +18,9 @@ app.post("/", async (req, resp) => {
 
     try {
         // Query to insert data into the database
-        const query = `
-            INSERT INTO Messages (id, spid, messagetext, senderType)
-            VALUES ($1, $2, $3, $4)
-        `;
-        const values = [id, spid, messagetext, senderType];
-
-        // Execute the query
-        await pool.query(query, values);
-
+        const message = await postChat(id, spid, messagetext, senderType);
         // Send a success response
-        resp.status(201).json({ message: "Data saved successfully!" });
+        resp.status(201).json({ message });
     } catch (error) {
         console.error("Error saving data:", error);
         resp.status(500).json({ error: "Internal server error" });
